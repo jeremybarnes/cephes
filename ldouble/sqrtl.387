@@ -1,0 +1,11 @@
+	.file	"sqrtl.i"
+gcc2_compiled.:
+.text
+.globl _sqrtl
+_sqrtl:
+	pushl %ebp
+	movl %esp,%ebp
+	fldt 8(%ebp)
+	fsqrt
+	leave
+	ret

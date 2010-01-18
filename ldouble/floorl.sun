@@ -1,0 +1,62 @@
+.text
+	.even
+.globl _floorl
+_floorl:
+	link a6,#0
+	fmovex fp1,sp@-
+	fmovel fpcr,d0
+	movel #-17,d1
+	andl d0,d1
+	orl #32,d1
+	fmovel d1,fpcr
+	fmovex a6@(8),fp1
+	fintx fp1,fp0
+	fmovel d0,fpcr
+	fmovex a6@(-12),fp1
+	unlk a6
+	rts
+	.even
+.globl _ceill
+_ceill:
+	link a6,#0
+	fmovex fp1,sp@-
+	fmovex a6@(8),fp1
+	fintx fp1,fp0
+	fmovex sp@+,fp1
+	unlk a6
+	rts
+	.even
+.globl _frexpl
+_frexpl:
+	linkw a6,#0
+	fmovex fp1,sp@-
+	fmovex a6@(8),fp0
+	movel a6@(20),a0
+	fgetexpx fp0,fp1
+	fintrzx fp1,fp1
+	fmovel fp1,d0
+	fgetmanx fp0,fp0
+	ftestx fp0
+	fbngt L21
+	fscaleb #-1,fp0
+	addql #1,d0
+L21:	movel d0,a0@
+	fmovex a6@(-12),fp1
+	unlk a6
+	rts
+	.even
+.globl _ldexpl
+_ldexpl:
+	linkw a6,#0
+	fmovex a6@(8),fp0
+	fscalel a6@(20),fp0
+	unlk a6
+	rts
+	.even
+.globl _fabsl
+_fabsl:
+	link a6,#0
+	fmovex a6@(8),fp0
+	fabsx fp0,fp0
+	unlk a6
+	rts

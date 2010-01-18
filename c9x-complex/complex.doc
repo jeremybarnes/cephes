@@ -1,0 +1,95 @@
+From uunet!best.com!jthomas@uunet.uu.net Tue Jan 30 00:13:03 1996
+Date: Mon, 29 Jan 1996 14:32:01 -0800
+From: Jim Thomas <uunet!best.com!jthomas@uunet.uu.net>
+To: uunet!validgh.com!numeric-interest@uunet.uu.net
+Subject: C complex arithmetic
+
+The C standard committees may soon be deciding whether to include complex
+arithmetic in C9X, and, if so, which of two competing proposals to
+incorporate.  This note solicits input from numerical programmers.
+
+BACKGROUND
+
+Beginning with NCEG in 1989, and continuing on in WG14 and X3J11, there has
+been an effort to define extensions that will make C an attractive, useful
+language for numerical programming.  The results are a set of proposals,
+among them:
+
+* floating-point (improved predictability, IEEE 754 support)
+* variable length arrays
+* designated initializers (for sparse compound objects)
+* restricted pointers (allowing FORTRAN-like optimizations)
+* complex arithmetic
+
+Not surprisingly, the primary expertise of the committee membership is
+language specification and implementation.  Therefore, the committee needs
+to hear from real users, particularly in more specialized areas such as
+complex arithmetic.
+
+TWO COMPLEX PROPOSALS
+
+One proposal follows a modern approach, defining both imaginary and complex
+types.  The other, in the spirit of FORTRAN, offers just complex types.
+Both proposals define arithmetic for any combination of supported
+arithmetic types.  Both accommodate FORTRAN-style complex code.  But
+including imaginary types adds somewhat to the language specification and
+implementation.  Why the extra work?
+
+1. Better modeling for complex analysis.  Mathematical formulas translate
+directly into expressions with transparent behavioral and performance
+characteristics.  Pure imaginaries and the imaginary unit are ubiquitous in
+complex analysis.  Calculations involving values on the imaginary axis can
+be modeled with objects of imaginary type which necessarily have pure
+imaginary values, even if intermediate roundoff would introduce a nonzero
+real part.
+
+2. Built-in efficiency.  With imaginary types and the imaginary unit
+constant  I , the expression  x + I*y  where  x  and  y  are real is
+defined to involve no floating-point arithmetic.  The expression  c * z
+where  c  is real or imaginary and  z  is complex is defined to involve
+only two floating-point multiplies and no adds.  The imaginary data types
+have the storage requirements of reals.  Some functions can be overloaded
+on imaginary arguments for faster calculation, e.g.  sinh(I*y)  with real
+y  can be calculated as  I*sin(y) .
+
+3. Consistency with IEEE 754 real arithmetic.  Requiring a complex
+representation for (conceptually) imaginary numbers, or automatically
+converting real or imaginary operands to complex, would interject an
+unnecessary zero component which would undermine use of infinities and
+signed zeros.  E.g.  INFINITY * I  would be equivalent to  INFINITY * (0 +
+I)  which results in a NaN real part.  The contamination of signed zeros in
+complex arithmetic would be particularly annoying, since their use for
+distinguishing the two sides of branch cuts has been a primary rationale
+for their careful specification in 754.
+
+READING THE PROPOSALS
+
+The proposal for both imaginary and complex types is "Complex C
+Extensions", part of the ANSI C Technical Report on Numerical Extensions;
+it's available at  ftp.dmk.com  in directory
+/DMK/sc22wg14/c9x/complex/cce/TR . "Issues Regarding Imaginary Types for C
+and C++", Thomas and Coonen, The Journal of C Language Translation, Vol. 5,
+No. 3 provides more rationale for this approach.  The proposal for just
+complex types is "Complex Type Simplified";  it's available at  ftp.dmk.com
+in directory  /DMK/sc22wg14/c9x/complex/noimag .
+
+THE QUESTIONS
+
+Is complex arithmetic an important feature that will be expected in a
+language for numerical programming?  (Or is it for a narrow market whose
+neglect would not seriously affect the adoption or utility of C9X?)
+
+Should C9X specify imaginary types, in addition to complex types?  Does the
+potential utility justify some additional cost in specification and
+implementation?
+
+YOUR INPUT
+
+Committees WG14 and X3J11 will be discussing these questions at their
+meetings in Irvine, CA, Feb 5-9.  Comments sent directly to me,
+jthomas@best.com , or to the mailing list,  numeric-interest@validgh.com ,
+will be carefully considered.
+
+-Jim
+
+

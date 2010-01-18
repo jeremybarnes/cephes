@@ -1,0 +1,75 @@
+Fellow Paranoid,
+
+This disk is a collection of programs intended to test the arithmetic
+of your computer.  The original version in BASIC was written by
+Professor W. Kahan at the University of California at Berkeley.
+The FORTRAN version was created by students at Berkeley under Prof.
+Kahan's direction.  The Pascal version is due to Dr. Brian Wichmann
+at the National Physical Laboratory in England.  The C version was
+begun by Thos Sumner at the University of California at San Francisco
+and completed by Dr. David Gay of the Bell Telephone Laboratories.
+
+Each version is intended to give the same results under any given
+circumstances.  In each case, the purpose is to discover and reveal
+any defects in the operation of the computer arithmetic.  These tests
+are not expected to be comprehensive, but rather indicative.  That is,
+while many flaws will be found, if present, no guarantee can be made
+about detecting all flaws actually present in the arithmetic.
+
+This is the second general release of Paranoia software.  The changes
+from the earlier version are given in the CHANGES file on this disk.
+Dr. David Gay is owed a debt of gratitude for his extensive efforts
+in completing the C version and revising the Pascal and FORTRAN ones.
+Many others have given freely of their time and effort as well, but
+now it is your turn.  Use the tests.  If you have reason to suspect
+that your results may include some computer or compiler version not
+previously reported, please return yours in machine readable form.
+
+Send results by electronic mail to:
+   Telemail:   RKarpinski
+   UUCP:       ucsfcgl!cca.uscf!dick@Berkeley
+   Compuserve: 70215,1277
+   BITNET:     dick@ucsfcca
+
+Send results on IBM PC, Macintosh, Sage/Stride, or 8 inch DEC format
+diskettes to:
+   Richard Karpinski
+   6521 Raymond Street
+   Oakland, CA 94609
+
+Call me as needed at (415) 658-3797 (answering machine) or at work
+at UCSF (415) 476-4529 (from 12-7 pm, usually).  
+
+This disk is available in 360k IBM PC DOS format for $15 from the
+above address.  A second disk is also available, which contains the
+double precision version of the FORTRAN program as well as the
+results from running several versions on several machines.  Write
+me at any time for the current list of results available.  Enclose
+a self-addressed stamped envelope for the free list.  The second
+and subsequent disks will also be available at $15.  
+
+All of these disks may be freely copied and passed to others for
+their use.  Please tell us about any changes you had to make to
+run the programs on your machine.  Please make the printed results
+show who made what changes, and mark them with consistent comments
+in the source.  The purpose of this request is to make the results
+more easily comparable.
+
+Do not be surprised to discover serious difficulties with your
+computer's arithmetic.  Most arithmetics designed before the
+IEEE 754 Binary Floating-point standard have half a dozen minor
+or serious flaws.  However, while these should not be surprising,
+they may well be distressing, depending on your specific needs.
+
+   Try running the programs.
+
+   Tell us about the changes you made.
+
+   Send a disk with the results you got.
+ 
+   Pass the programs on to whomever can use them.
+
+Together, we may uncover important problems to be addressed by 
+hardware and software companies, world-wide.  It could help.
+
+Dick Karpinski       24 Feb 1986

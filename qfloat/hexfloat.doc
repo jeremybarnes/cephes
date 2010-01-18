@@ -1,0 +1,8 @@
+ecalc recognizes floating-point numbers writen not only in the usual
+decimal notation, such as 1.55e1, but also numbers such as 0x1.fp3
+written in hexadecimal format per the ISO C9X C language standard.
+In that format the 0x hex introducer and the p or P exponent field are
+mandatory.  The exponent is a decimal number that indicates the power
+of 2 by which the significand part will be multiplied.  Thus 0x1.f
+is 1 15/16, p3 multiplies it by 8, and the value of 0x1.fp3 is the
+same as 1.55e1.

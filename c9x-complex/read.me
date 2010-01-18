@@ -1,0 +1,56 @@
+
+                     c9x-complex
+
+This is an experimental implementation of complex variables in gcc
+(the GNU C language compiler) corresponding to the proposed C9X new C
+language specification.  Look in these net sites for the C standards
+documents:
+  http://anubis.dkuug.dk/JTC1/SC22/WG14/
+
+You need standard math functions in each precision to use the complex
+functions in that precision.  You can use the libraries from the
+cephes distribution.
+
+The complex.h functions seem to work with gcc version 2.7.2 and later
+versions, except as noted below.  Please try to use this code in your
+complex variable applications.  Send bug reports to the gcc mailing
+lists so that compiler problems will get solved sooner rather than
+later.
+
+Known problems:
+
+As of gcc-2.8, float complex does not work on an alpha, nor on most
+other 64-bit computers.  Some, but not yet all, of the compiler bugs
+have been identified.  A temporary gcc source patch file is included
+here in the file "alpha.pat."  The final fix may involve changing the
+subroutine calling conventions, meaning that complex variable programs
+would have to be recompiled for compatibility.
+
+As of gcc-2.95, float complex still does not work on 64-bit machines.
+For the above patch "alpha.pat" to work, the source code patch "gcc2r95.pat"
+must also be applied to gcc version 2.95.
+
+Double complex does seem to work on alpha.
+
+On i386 there is an optimizer bug in gcc-2.7.  This has been fixed
+in gcc-2.8, but you can use no optimization (-O0) with gcc-2.7.
+
+NaN's, infinities, and minus zero do not work very well because of
+constant-folding problems and the lack of an "imaginary" data type
+in gcc.
+
+Assignment statements like r=z where r is real, z complex, ought to be
+avoided, in favor of writing r = creal(z) or r = cabs(z) or r = cimag(z).
+Implicit conversions are hard to spot in situations like u = sin(z)
+where sin is the real sine function of a real argument.  In fortran,
+sin might be overloaded so the function actually used is the complex
+sine; but at present C still has no overloading and it silently
+extracts the real part of z.  A source patch file to make gcc generate
+a noisy compiler warning about this is included here in the file
+"assign.pat."
+
+
+S. L. Moshier
+email via moshier@na-net.ornl.gov
+March, 1998
+August, 1999

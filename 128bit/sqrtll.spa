@@ -1,0 +1,14 @@
+.text
+	.align 4
+	.global sqrtl
+	.proc	07
+sqrtl:
+	!#PROLOGUE# 0
+	save %sp,-112,%sp
+	!#PROLOGUE# 1
+	ld [%fp+64],%g2
+	ldd [%i0],%f4;ldd [%i0+8],%f6
+	fsqrtq %f4,%f0
+	std %f0,[%g2];std %f2,[%g2+8]
+	jmp %i7+12
+	restore

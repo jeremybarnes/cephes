@@ -1,0 +1,217 @@
+	.file	"floorl.c"
+gcc2_compiled.:
+.text
+	.align 2
+.globl _fabsl
+_fabsl:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $12,%esp
+	fldt 8(%ebp)
+	fabs
+	leave
+	ret
+	.align 2
+.globl _ceill
+_ceill:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl 16(%ebp)
+	pushl 12(%ebp)
+	pushl 8(%ebp)
+	call _floorl
+	fldt 8(%ebp)
+	fcomp %st(1)
+	fnstsw %ax
+	andb $69,%ah
+	jne L6
+	fld1
+	faddp %st,%st(1)
+L6:
+	leave
+	ret
+
+	.align 2
+.globl _floorl
+_floorl:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $4,%esp
+	fstcw -4(%ebp)
+	fwait
+	movw -4(%ebp),%ax
+	andw $0xf3ff,%ax
+	orw $0x400,%ax
+	movw %ax,-2(%ebp)
+	fldcw -2(%ebp)
+	fldt 8(%ebp)
+	frndint
+	fldcw -4(%ebp)
+	leave
+	ret
+
+	.align 2
+.globl _frexpl
+_frexpl:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $24,%esp
+	pushl %esi
+	pushl %ebx
+	fldt 8(%ebp)
+	movl 20(%ebp),%ebx
+	fld %st(0)
+	fstpt -12(%ebp)
+	leal -4(%ebp),%ecx
+	movw -4(%ebp),%dx
+	andl $32767,%edx
+	jne L25
+	fldz
+	fucompp
+	fnstsw %ax
+	andb $68,%ah
+	xorb $64,%ah
+	jne L21
+	movl $0,(%ebx)
+	fldz
+	jmp L24
+	.align 2,0x90
+	.align 2,0x90
+L21:
+	fldt -12(%ebp)
+	fadd %st(0),%st
+	fstpt -12(%ebp)
+	decl %edx
+	movw (%ecx),%si
+	andl $32767,%esi
+	jne L22
+	cmpl $-66,%edx
+	jg L21
+L22:
+	addl %esi,%edx
+	jmp L19
+	.align 2,0x90
+L25:
+	fstp %st(0)
+L19:
+	addl $-16382,%edx
+	movl %edx,(%ebx)
+	movw (%ecx),%ax
+	andl $-32768,%eax
+	orl $16382,%eax
+	movw %ax,(%ecx)
+	fldt -12(%ebp)
+L24:
+	leal -32(%ebp),%esp
+	popl %ebx
+	popl %esi
+	leave
+	ret
+	.align 2
+LC1:
+	.long 0x0,0x80000000,0x433ffe
+	.align 2
+.globl _ldexpl
+_ldexpl:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $24,%esp
+	pushl %ebx
+	movl 20(%ebp),%edx
+	fldt 8(%ebp)
+	fstpt -12(%ebp)
+	leal -4(%ebp),%ecx
+	movw -4(%ebp),%bx
+	andl $32767,%ebx
+	jne L28
+	fldz
+	fldt LC1
+	.align 2,0x90
+L34:
+	fldt -12(%ebp)
+	fucom %st(2)
+	fnstsw %ax
+	andb $69,%ah
+	cmpb $64,%ah
+	je L47
+	testl %edx,%edx
+	jle L48
+	fadd %st(0),%st
+	fstpt -12(%ebp)
+	decl %edx
+	jmp L30
+	.align 2,0x90
+L48:
+	fstp %st(0)
+L30:
+	testl %edx,%edx
+	jge L31
+	cmpl $-64,%edx
+	jl L49
+	fldt -12(%ebp)
+	fmul %st(1),%st
+	fstpt -12(%ebp)
+	incl %edx
+L31:
+	testl %edx,%edx
+	je L50
+	movw (%ecx),%bx
+	andl $32767,%ebx
+	je L34
+	fstp %st(0)
+	fstp %st(0)
+L28:
+	addl %edx,%ebx
+	cmpl $32767,%ebx
+	jle L35
+	fldl _MAXNUML
+	jmp L41
+	.align 2,0x90
+L35:
+	andw $32768,(%ecx)
+	testl %ebx,%ebx
+	jg L36
+	cmpl $-64,%ebx
+	jge L37
+	jmp L45
+	.align 2,0x90
+L47:
+	fstp %st(0)
+L49:
+	fstp %st(0)
+	fstp %st(0)
+L45:
+	fldz
+	jmp L41
+	.align 2,0x90
+L37:
+	orw $32768,-2(%ecx)
+	testl %ebx,%ebx
+	jg L39
+	fldt LC1
+	.align 2,0x90
+L40:
+	fldt -12(%ebp)
+	fmul %st(1),%st
+	fstpt -12(%ebp)
+	incl %ebx
+	testl %ebx,%ebx
+	jle L40
+	fstp %st(0)
+L39:
+	xorl %ebx,%ebx
+L36:
+	movl %ebx,%eax
+	andb $127,%ah
+	orw %ax,(%ecx)
+	jmp L46
+	.align 2,0x90
+L50:
+	fstp %st(0)
+	fstp %st(0)
+L46:
+	fldt -12(%ebp)
+L41:
+	movl -28(%ebp),%ebx
+	leave
+	ret

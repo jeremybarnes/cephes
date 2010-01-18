@@ -1,0 +1,22 @@
+qparanoi.map
+NUL
+QPARANOI
+qparanoi
+qtanh
+qexp
+qsqrt
+qpow
+qlog
+qflt
+qfltd
+qfloor
+mtherr
+floor
+fabs
+const
+qc100
+clib
+paslib
+
+
+Use qc100 for 24 word numbers, qconst for 12 word numbers.

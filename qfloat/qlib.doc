@@ -1,0 +1,234 @@
+
+         QLIB Extended Precision Mathematical Library
+ 
+
+mconf.h        Machine configuration file
+mtherr.c       Common error handling routine
+qacosh.c       Inverse hyperbolic cosine
+qairy.c        Airy functions Ai, Bi, Ai', Bi'
+               qairyfg  Auxiliary expressions for Airy functions
+qasin.c        Arc sine
+               qacos  Inverse circular cosine
+qasinh.c       Arc hyperbolic sine
+qatanh.c       Arc hyperbolic tangent
+qatn.c         Arc tangent
+               qatn2  Quadrant-correct arctangent
+qbeta.c        Beta function
+qcbrt.c        Cube root
+qcerf.c        Complex error function
+qcgamma.c      Complex gamma function
+qchyp1f1.c     Complex confluent hypergeometric function
+qcmplx.c       Complex variable functions: 
+		qcabs	absolute value  qcabs( y );
+		qcadd	add
+		qcsub	subtract        qcsub( a, b, y );  y = b - a
+		qcmul	multiply
+		qcdiv	divide          qcdiv( d, n, y );  y = n/d
+		qcmov	move
+		qcneg	negate          qcneg( y );
+		qcexp	exponential function
+		qclog	logarithm
+		qcsin	sine
+		qccos	cosine
+		qcasin	arcsine
+		qcacos	arccosine
+		qcsqrt  square root
+		qctan	tangent
+		qccot	cotangent
+		qcatan	arctangent
+qcos.c         Cosine
+  qcosm1( x, y );   y = cos(x) - 1
+qcosh.c        Hyperbolic cosine
+qcpolylog.c    Complex polylogarithms
+qdawsn.c       Dawson's integral
+qei	       Exponential integral
+qellie.c       Incomplete elliptic integral (E)
+qellik.c       Incomplete elliptic integral (K)
+qellpe.c       Complete elliptic integral (E)
+qellpj.c       Jacobian elliptic functions sn, cn, dn, phi
+qellpk.c       Complete elliptic integral (K)
+qerf.c         Error integral
+qerfc.c        Complementary error integral
+qeuclid.c      Q type rational arithmetic:
+			qradd	add fractions
+			qrsub	subtract fractions
+			qrmul	multiply fractions
+			qrdiv	divide fractions
+			qreuclid reduce to lowest terms
+qexp.c         Exponential function
+qexp10.c       Base 10 exponential function
+qexp2.c        qexp2   Base 2 exponential function
+               qlogtwo Base 2 logarithm
+qexpn.c        Exponential integral
+qfac.c         Factorial
+qfresf.c       qfresnl  Fresnel integral S(x)
+	                Fresnel integral C(x)
+               qfresf   Auxiliary function f(x)
+                        Auxiliary function g(x)
+qgamma.c       qgamma Gamma function
+	       qlgam  Log gamma function
+qhead.h        Q type configuration file for C language
+qhy2f1.c       Gauss hypergeometric function
+qhyp.c         Confluent hypergeometric function
+qigam.c        qigam  Incomplete gamma integral
+               qigamc Complement of incomplete gamma integral
+qigami.c       Functional inverse of incomplete gamma integral
+qin.c          Modified Bessel function In
+qincb.c        Incomplete beta integral
+qincbi.c       Functional inverse of incomplete beta integral
+qine.c         Exponentially weighted In
+qjn.c          Bessel function Jv (noninteger order)
+		qhank	Hankel's asymptotic expansion
+qjypn.c        Auxiliary function P for Hankel's expansion
+qjyqn.c        Auxiliary function Q for Hankel's expansion        
+qkn.c          modified Bessel function Kn
+qkne.c         Exponentially weighted Kn
+qlog.c         Natural logarithm
+qlog1.c        log(1+x)
+qlog10.c       Common logarithm
+qndtr.c        Gaussian distribution function
+qndtri.c       Functional inverse of Gaussian distribution function
+qpolylog.c     Polylogarithms
+qpolyr.c       Q type polynomial arithmetic, rational coefficients:
+			poleva	Evaluate polynomial a(t) at t = x.
+			polprt	Print the coefficients of a to D digits.
+			polclr	Set a identically equal to zero, up to a[na].
+			polmov	Set b = a.
+			poladd	c = b + a, nc = max(na,nb)
+			polsub	c = b - a, nc = max(na,nb)
+			polmul	c = b * a, nc = na+nb
+			poldiv	c = b / a, nc = MAXPOL
+qpow.c         Power function, also
+		qpowi	raise to integer power
+qprob.c        Various probability integrals:
+			qbdtr	binomial distribution
+			qbdtrc  complemented binomial distribution
+			qbdtri  inverse of binomial distribution
+			qchdtr  chi-square distribution
+			qchdti	inverse of chi-square distribution
+			qfdtr	F distribution
+			qfdtrc	complemented F distribution
+			qfdtri	inverse of F distribution
+			qgdtr	gamma distribution
+			qgdtrc	complemented gamma distribution
+			qnbdtr	negative binomial distribution
+			qnbdtc	complemented negative binomial
+			qpdtr	Poisson distribution
+			qpdtrc	complemented Poisson distribution
+			qpdtri	inverse of Poisson distribution
+qpsi.c         psi function
+qshici.c       hyperbolic sine integral
+		hyperbolic cosine integral
+qsici.c        sine integral
+		cosine integral
+               qsicix  Auxiliary function f(x) for sine and cosine integrals
+               qsicix  Auxiliary function g(x) for sine and cosine integrals
+qsimq.c        solve linear simultaneous equations
+qsin.c         circular sine
+		qsinmx3(x,y); y = sin(x) - x
+qsindg.c       sine of arg in degrees
+               qcosdg  Circular cosine of arg in degrees
+               qtandg  Circular tangent of arg in degrees
+qsinh.c        hyperbolic sine
+qspenc.c       Spence's integral (dilogarithm)
+qsqrt.c        square root
+qstudt.c       Student's t distribution function
+               qstdtri  Inverse of Student's t distribution
+qtan.c         tangent
+               qcot  Circular cotangent
+qtanh.c        hyperbolic tangent
+qyn.c          Bessel function Yn (integer order), also
+		qyaux0	auxiliary functions
+		qyaux1
+		qymod	modulus
+		qyphase	phase
+qzetac.c       Riemann zeta function
+
+
+Arithmetic routines
+
+qflt.c         Main Q type arithmetic package:
+		asctoq	decimal ASCII string to Q type
+		dtoq	DEC double precision to Q type
+		etoq	IEEE double precision to Q type
+		ltoq	long integer to Q type
+		qabs	absolute value
+		qadd	add
+		qclear	set to zero
+		qcmp	compare
+		qdiv	divide
+		qifrac	long integer part plus q type fraction
+		qinfin	set to infinity, leaving its sign alone
+		qmov	b = a
+		qmul	multiply
+		qmuli	multiply by small integer
+		qneg	negate
+		qnrmlz	adjust exponent and mantissa
+		qsub	subtract
+		qtoasc	Q type to decimal ASCII string
+		qtod	convert Q type to DEC double precision
+		qtoe	convert Q type to IEEE double precision
+qflta.c        Q type arithmetic, C language loops, strict rounding
+qfltb.c        Q type arithmetic, C language faster loops
+qhead.asm      Q type configuration file for assembly language
+mulr.asm       Q type multiply, IBM PC assembly language
+divn.asm       Q type IBM PC divide routine
+subm.asm       Q type assembly language add, subtract for MSDOS
+qfltd.asm      Q type arithmetic for 68020 (Definicon assembler)
+qconst.c       Q type common constants
+qc120.c        120 decimal version of qconst.c
+mul128.a       Fast multiply algorithm (for OS-9 68000)
+mul128ts.c     Test program for above
+mul32.a        
+mul64.a        
+qf68k.a        Q type arithmetic for 68000 OS-9
+qf68k.asm      Q type arithmetic for 68000 (Definicon assembler)
+qf68k.s        Q type arithmetic for 68000 (System V Unix)
+qfloor.c       Q type floor(), also
+		qround() round to integer
+qsqrta.c       strictly rounded square root
+
+
+
+
+                  Applications
+
+
+calc100.doc    Documentation for 100 digit calculator program
+qcalc.c        Command interpreter for calculator program
+qccalc.c       Command interpreter for complex variable calculator program
+qcalc.h        Include file for command interpreter
+qbernum.c      Generates Bernoulli numbers
+
+               Calculator program scripts for qcalc
+
+euler.tak      Euler's constant
+gamcof.tak     Bernoulli numbers for gamma function
+stirling.tak    Stirling's formula
+zeta.tak       zeta function
+ctest.tak      exercise complex variable calculator
+
+
+
+               Test Programs
+
+qtst1.c	       Check double precision function at random points.
+qtstl.c	       Check long double precision function at random points.
+qc9tst.c       Check C99 double complex function at random points.
+qc9tstl.c      Check C99 long double complex function at random points.
+qctst1.c       Check old style double complex function at random points.
+qmtst.c	       Self-check sundry q-type functions.
+qparanoi.c     Paranoia arithmetic test for Q type arithmetic
+notes          Paranoia documentation
+
+
+               Make files and batch programs
+
+makefile       Unix, GNU, or other unix-like versions
+cplus.mak      Builds test programs for C++ arithmetic class
+bc45.zip       Borland C++ make file and GUI scripts
+msvc.mak       Microsoft Visual C++ nmake file
+msc.mak	       Microsoft C version 5 or 6 make file, small memory model
+msc2.mak       Microsoft C version 5 or 6 make file, large memory model
+q100asm.rsp    Microsoft Linker script
+qlibasm.rsp    Microsoft Linker script

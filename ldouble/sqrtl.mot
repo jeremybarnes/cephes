@@ -1,0 +1,10 @@
+#/* For Motorola 68K sysv  */
+#/* Contributed by Philippe De Muyter <phdm@info.ucl.ac.be> */
+	even
+	global sqrtl
+sqrtl:
+	link %a6,&0
+	fmove.x 8(%a6),%fp0
+	fsqrt.x %fp0,%fp0
+	unlk %a6
+	rts

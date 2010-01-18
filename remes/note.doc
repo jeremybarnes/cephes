@@ -1,0 +1,8 @@
+   A detailed discussion of this Remes program may be found
+in _Methods and Programs for Mathematical Functions_
+(Prentice-Hall or Simon & Schuster International, 1989).
+
+   You must supply a routine for the function to be approximated.
+Your function is called from remesf.c.
+
+SLM

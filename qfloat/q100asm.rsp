@@ -1,0 +1,9 @@
+qlib100
+y
++qasinh +qtanh +qcos +qcgamma +qcmplx +qcosh +qsin &
++subm +qacosh +qexp +qexp21 +qexp10 +qsinh +qasin +qcbrt &
++qsqrt +qtan +qatanh +qpow +qgamma +qatn &
++qc100 +mulr +qjn +qjypn +qyn +qjyqn +qfac &
++qflt +qlog +divn
+qlib100.lst
+qlib100

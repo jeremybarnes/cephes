@@ -1,0 +1,64 @@
+#/* For Motorola 68K sysv  */
+#/* Contributed by Philippe De Muyter <phdm@info.ucl.ac.be> */
+	text
+	even
+	global floorl
+floorl:
+	link %a6,&0
+	fmov.x %fp1,-(%sp)
+	fmov.l %fpcr,%d0
+	mov.l &-17,%d1
+	and.l %d0,%d1
+	or.l &32,%d1
+	fmov.l %d1,%fpcr
+	fmov.x 8(%a6),%fp1
+	fint.x %fp1,%fp0
+	fmov.l %d0,%fpcr
+	fmov.x -12(%a6),%fp1
+	unlk %a6
+	rts
+	even
+	global ceill
+ceill:
+	link %a6,&0
+	fmov.x %fp1,-(%sp)
+	fmov.x 8(%a6),%fp1
+	fint.x %fp1,%fp0
+	fmov.x (%sp)+,%fp1
+	unlk %a6
+	rts
+	even
+	global frexpl
+frexpl:
+	link.w %a6,&0
+	fmov.x %fp1,-(%sp)
+	fmov.x 8(%a6),%fp0
+	mov.l 20(%a6),%a0
+	fgetexp.x %fp0,%fp1
+	fintrz.x %fp1,%fp1
+	fmov.l %fp1,%d0
+	fgetman.x %fp0,%fp0
+	ftest.x %fp0
+	fbngt L21
+	fscale.b &-1,%fp0
+	addq.l &1,%d0
+L21:	mov.l %d0,(%a0)
+	fmov.x -12(%a6),%fp1
+	unlk %a6
+	rts
+	even
+	global ldexpl
+ldexpl:
+	link.w %a6,&0
+	fmov.x 8(%a6),%fp0
+	fscale.l 20(%a6),%fp0
+	unlk %a6
+	rts
+	even
+	global fabsl
+fabsl:
+	link %a6,&0
+	fmov.x 8(%a6),%fp0
+	fabs.x %fp0,%fp0
+	unlk %a6
+	rts

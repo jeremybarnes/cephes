@@ -1,0 +1,1159 @@
+	.file	"qfltbi.c"
+	.version	"01.01"
+gcc2_compiled.:
+.text
+	.align 16
+.globl shdn1
+	.type	 shdn1,@function
+shdn1:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %ebx
+	movl 8(%ebp),%ebx
+	clc
+	rcrl $1,8(%ebx)
+	rcrl $1,12(%ebx)
+	rcrl $1,16(%ebx)
+	rcrl $1,20(%ebx)
+	rcrl $1,24(%ebx)
+	rcrl $1,28(%ebx)
+	rcrl $1,32(%ebx)
+	rcrl $1,36(%ebx)
+	rcrl $1,40(%ebx)
+	rcrl $1,44(%ebx)
+	rcrl $1,48(%ebx)
+	rcrl $1,52(%ebx)
+	rcrl $1,56(%ebx)
+	popl %ebx
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe1:
+	.size	 shdn1,.Lfe1-shdn1
+	.align 16
+.globl shup1
+	.type	 shup1,@function
+shup1:
+	pushl %ebp
+	movl %esp,%ebp
+	movl 8(%ebp),%eax
+	clc
+	rcll $1,56(%eax)
+	rcll $1,52(%eax)
+	rcll $1,48(%eax)
+	rcll $1,44(%eax)
+	rcll $1,40(%eax)
+	rcll $1,36(%eax)
+	rcll $1,32(%eax)
+	rcll $1,28(%eax)
+	rcll $1,24(%eax)
+	rcll $1,20(%eax)
+	rcll $1,16(%eax)
+	rcll $1,12(%eax)
+	rcll $1,8(%eax)
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe2:
+	.size	 shup1,.Lfe2-shup1
+	.align 16
+.globl shdn16
+	.type	 shdn16,@function
+shdn16:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%esi
+	movl $16,%ecx
+	jmp .Lshdnsome
+	.align 16
+.globl shdn8
+	.type	 shdn8,@function
+shdn8:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%esi
+	movl $8,%ecx
+	.align 4
+.Lshdnsome:
+	movl 56(%esi),%ebx
+	movl 52(%esi),%edx
+	shrd %cl,%edx,%ebx
+	movl %ebx,56(%esi)
+
+	movl 48(%esi),%ebx
+	shrd %cl,%ebx,%edx
+	movl %edx,52(%esi)
+
+	movl 44(%esi),%edx
+	shrd %cl,%edx,%ebx
+	movl %ebx,48(%esi)
+
+	movl 40(%esi),%ebx
+	shrd %cl,%ebx,%edx
+	movl %edx,44(%esi)
+
+	movl 36(%esi),%edx
+	shrd %cl,%edx,%ebx
+	movl %ebx,40(%esi)
+
+	movl 32(%esi),%ebx
+	shrd %cl,%ebx,%edx
+	movl %edx,36(%esi)
+
+	movl 28(%esi),%edx
+	shrd %cl,%edx,%ebx
+	movl %ebx,32(%esi)
+
+	movl 24(%esi),%ebx
+	shrd %cl,%ebx,%edx
+	movl %edx,28(%esi)
+
+	movl 20(%esi),%edx
+	shrd %cl,%edx,%ebx
+	movl %ebx,24(%esi)
+
+	movl 16(%esi),%ebx
+	shrd %cl,%ebx,%edx
+	movl %edx,20(%esi)
+
+	movl 12(%esi),%edx
+	shrd %cl,%edx,%ebx
+	movl %ebx,16(%esi)
+
+	movl 8(%esi),%ebx
+	shrd %cl,%ebx,%edx
+	movl %edx,12(%esi)
+
+	shr %cl,%ebx
+	movl %ebx,8(%esi)
+
+	popl %ebx
+	popl %esi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe3:
+	.size	 shdn8,.Lfe3-shdn8
+.globl shup16
+	.type	 shup16,@function
+shup16:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%esi
+	movl $16,%ecx
+	jmp .Lshupsome
+.Lfe4:
+	.size	 shup16,.Lfe4-shup16
+	.align 16
+.globl shup8
+	.type	 shup8,@function
+shup8:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%esi
+	movl $8,%ecx
+.Lshupsome:
+	movl 8(%esi),%edx
+	movl 12(%esi),%ebx
+	shld %cl,%ebx,%edx
+	movl %edx,8(%esi)
+
+	movl 16(%esi),%edx
+	shld %cl,%edx,%ebx
+	movl %ebx,12(%esi)
+
+	movl 20(%esi),%ebx
+	shld %cl,%ebx,%edx
+	movl %edx,16(%esi)
+
+	movl 24(%esi),%edx
+	shld %cl,%edx,%ebx
+	movl %ebx,20(%esi)
+
+	movl 28(%esi),%ebx
+	shld %cl,%ebx,%edx
+	movl %edx,24(%esi)
+
+	movl 32(%esi),%edx
+	shld %cl,%edx,%ebx
+	movl %ebx,28(%esi)
+
+	movl 36(%esi),%ebx
+	shld %cl,%ebx,%edx
+	movl %edx,32(%esi)
+
+	movl 40(%esi),%edx
+	shld %cl,%edx,%ebx
+	movl %ebx,36(%esi)
+
+	movl 44(%esi),%ebx
+	shld %cl,%ebx,%edx
+	movl %edx,40(%esi)
+
+	movl 48(%esi),%edx
+	shld %cl,%edx,%ebx
+	movl %ebx,44(%esi)
+
+	movl 52(%esi),%ebx
+	shld %cl,%ebx,%edx
+	movl %edx,48(%esi)
+
+	movl 56(%esi),%edx
+	shld %cl,%edx,%ebx
+	movl %ebx,52(%esi)
+
+	shl %cl,%edx
+	movl %edx,56(%esi)
+
+	popl %ebx
+	popl %esi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe5:
+	.size	 shup8,.Lfe5-shup8
+	.align 16
+.globl addm
+	.type	 addm,@function
+addm:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %edi
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%esi
+	addl $56,%esi
+	movl 12(%ebp),%edi
+	addl $56,%edi
+	xorl %eax,%eax
+	xorl %edx,%edx
+
+	addl (%edi),%eax
+	adcl $0,%edx
+	addl (%esi),%eax
+	adcl $0,%edx
+	movl %eax,(%edi)
+	xorl %eax,%eax
+
+	addl -4(%edi),%edx
+	adcl $0,%eax
+	addl -4(%esi),%edx
+	adcl $0,%eax
+	movl %edx,-4(%edi)
+	xorl %edx,%edx
+
+	addl -8(%edi),%eax
+	adcl $0,%edx
+	addl -8(%esi),%eax
+	adcl $0,%edx
+	movl %eax,-8(%edi)
+	xorl %eax,%eax
+
+	addl -12(%edi),%edx
+	adcl $0,%eax
+	addl -12(%esi),%edx
+	adcl $0,%eax
+	movl %edx,-12(%edi)
+	xorl %edx,%edx
+
+	addl -16(%edi),%eax
+	adcl $0,%edx
+	addl -16(%esi),%eax
+	adcl $0,%edx
+	movl %eax,-16(%edi)
+	xorl %eax,%eax
+
+	addl -20(%edi),%edx
+	adcl $0,%eax
+	addl -20(%esi),%edx
+	adcl $0,%eax
+	movl %edx,-20(%edi)
+	xorl %edx,%edx
+
+	addl -24(%edi),%eax
+	adcl $0,%edx
+	addl -24(%esi),%eax
+	adcl $0,%edx
+	movl %eax,-24(%edi)
+	xorl %eax,%eax
+
+	addl -28(%edi),%edx
+	adcl $0,%eax
+	addl -28(%esi),%edx
+	adcl $0,%eax
+	movl %edx,-28(%edi)
+	xorl %edx,%edx
+
+	addl -32(%edi),%eax
+	adcl $0,%edx
+	addl -32(%esi),%eax
+	adcl $0,%edx
+	movl %eax,-32(%edi)
+	xorl %eax,%eax
+
+	addl -36(%edi),%edx
+	adcl $0,%eax
+	addl -36(%esi),%edx
+	adcl $0,%eax
+	movl %edx,-36(%edi)
+	xorl %edx,%edx
+
+	addl -40(%edi),%eax
+	adcl $0,%edx
+	addl -40(%esi),%eax
+	adcl $0,%edx
+	movl %eax,-40(%edi)
+	xorl %eax,%eax
+
+	addl -44(%edi),%edx
+	adcl $0,%eax
+	addl -44(%esi),%edx
+	adcl $0,%eax
+	movl %edx,-44(%edi)
+	xorl %edx,%edx
+
+	addl -48(%edi),%eax
+	adcl $0,%edx
+	addl -48(%esi),%eax
+	adcl $0,%edx
+	movl %eax,-48(%edi)
+
+	popl %ebx
+	popl %esi
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe6:
+	.size	 addm,.Lfe6-addm
+	.align 16
+.globl subm
+	.type	 subm,@function
+subm:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %edi
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%esi
+	addl $56,%esi
+	movl 12(%ebp),%edi
+	addl $56,%edi
+	movl $1,%eax
+	xorl %edx,%edx
+	xorl %ebx,%ebx
+
+	addl (%edi),%eax
+	adcl $0,%edx
+	movl (%esi),%ecx
+	notl %ecx
+	addl %ecx,%eax
+	adcl $0,%edx
+	movl %eax,(%edi)
+	xorl %eax,%eax
+
+	addl -4(%edi),%edx
+	adcl $0,%eax
+	movl -4(%esi),%ecx
+	notl %ecx
+	addl %ecx,%edx
+	adcl $0,%eax
+	movl %edx,-4(%edi)
+	xorl %edx,%edx
+
+	addl -8(%edi),%eax
+	adcl $0,%edx
+	movl -8(%esi),%ecx
+	notl %ecx
+	addl %ecx,%eax
+	adcl $0,%edx
+	movl %eax,-8(%edi)
+	xorl %eax,%eax
+
+	addl -12(%edi),%edx
+	adcl $0,%eax
+	movl -12(%esi),%ecx
+	notl %ecx
+	addl %ecx,%edx
+	adcl $0,%eax
+	movl %edx,-12(%edi)
+	xorl %edx,%edx
+
+	addl -16(%edi),%eax
+	adcl $0,%edx
+	movl -16(%esi),%ecx
+	notl %ecx
+	addl %ecx,%eax
+	adcl $0,%edx
+	movl %eax,-16(%edi)
+	xorl %eax,%eax
+
+	addl -20(%edi),%edx
+	adcl $0,%eax
+	movl -20(%esi),%ecx
+	notl %ecx
+	addl %ecx,%edx
+	adcl $0,%eax
+	movl %edx,-20(%edi)
+	xorl %edx,%edx
+
+	addl -24(%edi),%eax
+	adcl $0,%edx
+	movl -24(%esi),%ecx
+	notl %ecx
+	addl %ecx,%eax
+	adcl $0,%edx
+	movl %eax,-24(%edi)
+	xorl %eax,%eax
+
+	addl -28(%edi),%edx
+	adcl $0,%eax
+	movl -28(%esi),%ecx
+	notl %ecx
+	addl %ecx,%edx
+	adcl $0,%eax
+	movl %edx,-28(%edi)
+	xorl %edx,%edx
+
+	addl -32(%edi),%eax
+	adcl $0,%edx
+	movl -32(%esi),%ecx
+	notl %ecx
+	addl %ecx,%eax
+	adcl $0,%edx
+	movl %eax,-32(%edi)
+	xorl %eax,%eax
+
+	addl -36(%edi),%edx
+	adcl $0,%eax
+	movl -36(%esi),%ecx
+	notl %ecx
+	addl %ecx,%edx
+	adcl $0,%eax
+	movl %edx,-36(%edi)
+	xorl %edx,%edx
+
+	addl -40(%edi),%eax
+	adcl $0,%edx
+	movl -40(%esi),%ecx
+	notl %ecx
+	addl %ecx,%eax
+	adcl $0,%edx
+	movl %eax,-40(%edi)
+	xorl %eax,%eax
+
+	addl -44(%edi),%edx
+	adcl $0,%eax
+	movl -44(%esi),%ecx
+	notl %ecx
+	addl %ecx,%edx
+	adcl $0,%eax
+	movl %edx,-44(%edi)
+	xorl %edx,%edx
+
+	addl -48(%edi),%eax
+	adcl $0,%edx
+	movl -48(%esi),%ecx
+	notl %ecx
+	addl %ecx,%eax
+	adcl $0,%edx
+	movl %eax,-48(%edi)
+
+	popl %ebx
+	popl %esi
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe7:
+	.size	 subm,.Lfe7-subm
+	.align 16
+.globl divm
+	.type	 divm,@function
+divm:
+/* divm( a, b ) */
+	pushl %ebp
+	movl %esp,%ebp
+	subl $228,%esp
+	pushl %edi
+	pushl %esi
+	pushl %ebx
+/* Test if denominator has only 32 bits of significance. */
+/* p = &a[4]; */
+	movl 8(%ebp),%edx
+	addl $16,%edx
+/* i = NQ-4; */
+	movl $10,%esi
+	.align 4
+.L52:
+	movl (%edx),%eax
+	addl $4,%edx
+	testl %eax,%eax
+	jne .L56
+	decl %esi
+	jne .L52
+/* Do single precision divides if so. */
+/* qmov( b, prod ); */
+	leal -128(%ebp),%ecx
+	movl %ecx,-228(%ebp)
+	pushl %ecx
+	movl 12(%ebp),%ebx
+	pushl %ebx
+	call qmov
+/* prod[NQ] = 0; */
+	movl $0,-72(%ebp)
+/* prod[NQ+1] = 0; */
+	movl $0,-68(%ebp)
+/* shdn1( prod ); */
+	movl -228(%ebp),%ecx
+	pushl %ecx
+	call shdn1
+/* shdn1( prod ); */
+	movl -228(%ebp),%ebx
+	pushl %ebx
+	call shdn1
+/* d = a[3]; */
+	movl 8(%ebp),%ecx
+	movl 12(%ecx),%edi
+	movl %edi,-212(%ebp)
+/* u = ((unsigned long long)prod[3] << 32) | prod[4]; */
+	movl -116(%ebp),%edx
+	movl -112(%ebp),%eax
+	movl %eax,-204(%ebp)
+	movl %edx,-200(%ebp)
+/* for( i=3; i<NQ; i++ ) */
+	movl $3,%esi
+	addl $16,%esp
+	movl -204(%ebp),%eax
+	movl -200(%ebp),%edx
+	.align 4
+.L60:
+	divl -212(%ebp)
+	movl %eax,-128(%ebp,%esi,4)
+	movl -120(%ebp,%esi,4),%eax
+	incl %esi
+	cmpl $13,%esi
+	jle .L60
+
+	movl %eax,-204(%ebp)
+	movl %edx,-200(%ebp)
+	divl -212(%ebp)
+	movl %eax,-72(%ebp)
+	jmp .L61
+	.align 4
+.L56:
+	leal -192(%ebp),%edi
+	pushl %edi
+	call qclear
+	movl $0,-136(%ebp)
+	leal -128(%ebp),%esi
+	pushl %esi
+	call qclear
+	leal -64(%ebp),%ebx
+	pushl %ebx
+	call qclear
+
+	movl 8(%ebp),%ecx
+	movl 12(%ecx),%ecx
+
+	xorl %eax,%eax
+	movl $1073741824,%edx
+	divl %ecx
+
+	movl %eax,-180(%ebp)
+	movl $1,-196(%ebp)
+	addl $12,%esp
+	movl %ebx,-216(%ebp)
+	.align 4
+.L66:
+	movl -196(%ebp),%ebx
+	addl %ebx,%ebx
+	movl %ebx,-228(%ebp)
+	movl %ebx,-196(%ebp)
+	cmpl $12,%ebx
+	jle .L64
+	movl $12,-228(%ebp)
+	.align 4
+.L64:
+	movl -228(%ebp),%ecx
+	pushl %ecx
+	movl -216(%ebp),%ebx
+	pushl %ebx
+	pushl %edi
+	call squarev
+	movl -228(%ebp),%ecx
+	pushl %ecx
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%ebx
+	pushl %ebx
+	call mulv
+	pushl %edi
+	pushl %esi
+	call subm
+	addl $36,%esp
+	pushl %edi
+	call shup1
+	addl $4,%esp
+	cmpl $11,-228(%ebp)
+	jle .L66
+	pushl $12
+	leal -128(%ebp),%eax
+	pushl %eax
+	movl 12(%ebp),%ecx
+	pushl %ecx
+	leal -192(%ebp),%eax
+	pushl %eax
+	call mulv
+	movl 12(%ebp),%ebx
+	movl (%ebx),%ebx
+	movl %ebx,-128(%ebp)
+	movl 12(%ebp),%ecx
+	movl 4(%ecx),%ecx
+	movl %ecx,-124(%ebp)
+	addl $16,%esp
+	.align 4
+.L61:
+	leal -128(%ebp),%ebx
+	pushl %ebx
+	call mdnorm
+	movl 12(%ebp),%ecx
+	pushl %ecx
+	pushl %ebx
+	call qmov
+	leal -240(%ebp),%esp
+	popl %ebx
+	popl %esi
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe8:
+	.size	 divm,.Lfe8-divm
+	.align 16
+	.type	 mulv,@function
+mulv:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $32,%esp
+	pushl %edi
+	pushl %esi
+	pushl %ebx
+	movl 16(%ebp),%eax
+	movl 20(%ebp),%edx
+	leal 2(%edx),%esi
+	movl %esi,-20(%ebp)
+	leal 8(%eax),%edi
+	movl %edi,-4(%ebp)
+	.align 4
+.L68:
+	movl -4(%ebp),%esi
+	movl $0,(%esi)
+	addl $4,%esi
+	movl %esi,-4(%ebp)
+	decl -20(%ebp)
+	jne .L68
+	leal 12(%eax,%edx,4),%eax
+	movl %eax,-32(%ebp)
+	addl $2,%edx
+	movl %edx,-20(%ebp)
+	cmpl $2,%edx
+	jle .L72
+	.align 4
+.L85:
+	movl 12(%ebp),%edi
+	addl $12,%edi
+	movl %edi,-8(%ebp)
+	movl -20(%ebp),%esi
+	movl 8(%ebp),%edi
+	leal (%edi,%esi,4),%esi
+	movl %esi,-4(%ebp)
+	movl -20(%ebp),%edi
+	movl %edi,-24(%ebp)
+	cmpl $2,%edi
+	jle .L75
+	.align 4
+.L84:
+	movl -4(%ebp),%esi
+	addl $-4,-4(%ebp)
+	movl -8(%ebp),%edi
+	addl $4,-8(%ebp)
+	movl (%esi),%eax
+	orl %eax,%eax
+	je .L76
+	movl (%edi),%edx
+	orl %edx,%edx
+	je .L76
+	mull %edx
+
+	movl -32(%ebp),%esi
+	xorl %ecx,%ecx
+	addl (%esi),%eax
+	adcl $0,%edx
+	adcl $0,%ecx
+	addl -4(%esi),%edx
+	adcl $0,%ecx
+
+	movl %eax,(%esi)
+	movl %edx,-4(%esi)
+	addl %ecx,-8(%esi)
+
+.L76:
+	decl -24(%ebp)
+	cmpl $2,-24(%ebp)
+	jg .L84
+.L75:
+	addl $-4,-32(%ebp)
+	decl -20(%ebp)
+	cmpl $2,-20(%ebp)
+	jg .L85
+.L72:
+	leal -44(%ebp),%esp
+	popl %ebx
+	popl %esi
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe9:
+	.size	 mulv,.Lfe9-mulv
+	.align 16
+	.type	 squarev,@function
+squarev:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $28,%esp
+	pushl %edi
+	pushl %esi
+	pushl %ebx
+	movl 16(%ebp),%eax
+	leal 2(%eax),%edi
+	movl %edi,-20(%ebp)
+	movl 12(%ebp),%esi
+	addl $8,%esi
+	movl %esi,-24(%ebp)
+	.align 4
+.L87:
+	movl -24(%ebp),%edi
+	movl $0,(%edi)
+	addl $4,%edi
+	movl %edi,-24(%ebp)
+	decl -20(%ebp)
+	jne .L87
+	movl 12(%ebp),%esi
+	leal 12(%esi,%eax,4),%esi
+	movl %esi,-28(%ebp)
+	addl $2,%eax
+	movl %eax,-20(%ebp)
+	cmpl $2,%eax
+	jle .L91
+	.align 4
+.L106:
+	movl 8(%ebp),%edi
+	addl $12,%edi
+	movl %edi,-4(%ebp)
+	movl -20(%ebp),%esi
+	movl 8(%ebp),%edi
+	leal (%edi,%esi,4),%esi
+	movl %esi,-24(%ebp)
+	movl -4(%ebp),%edi
+	cmpl %edi,%esi
+	jb .L94
+	.align 4
+.L105:
+/* if( (*p == 0) || (*q == 0) )	{--p; ++q; continue; } */
+	movl -24(%ebp),%esi
+	addl $-4,-24(%ebp)
+	movl -4(%ebp),%edi
+	addl $4,-4(%ebp)
+
+	movl (%esi),%edx
+	orl %edx,%edx
+	je .L93
+	movl (%edi),%eax
+	orl %eax,%eax
+	je .L93
+	mull %edx
+	xorl %ecx,%ecx
+/* if( p != q ) */
+	cmpl %edi,%esi
+	je .L97
+	clc
+	rcll %eax
+	rcll %edx
+	rcll %ecx
+	.align 4
+.L97:
+	movl -28(%ebp),%esi
+	addl (%esi),%eax
+	adcl $0,%edx
+	adcl $0,%ecx
+	addl -4(%esi),%edx
+	adcl $0,%ecx
+	movl %eax,(%esi)
+	movl %edx,-4(%esi)
+	addl %ecx,-8(%esi)
+	.align 4
+.L93:
+	movl -4(%ebp),%edi
+	cmpl %edi,-24(%ebp)
+	jae .L105
+	.align 4
+.L94:
+	addl $-4,-28(%ebp)
+	decl -20(%ebp)
+	cmpl $2,-20(%ebp)
+	jg .L106
+	.align 4
+.L91:
+	movl 12(%ebp),%esi
+	pushl %esi
+	call shup1
+	leal -40(%ebp),%esp
+	popl %ebx
+	popl %esi
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe10:
+	.size	 squarev,.Lfe10-squarev
+	.align 16
+.globl mulm
+	.type	 mulm,@function
+mulm:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $100,%esp
+	pushl %edi
+	pushl %esi
+	pushl %ebx
+	leal -64(%ebp),%eax
+	pushl %eax
+	call qclear
+	movl 12(%ebp),%edi
+	movl (%edi),%edi
+	movl %edi,-64(%ebp)
+	movl 12(%ebp),%esi
+	movl 4(%esi),%esi
+	movl %esi,-60(%ebp)
+	movl $0,-8(%ebp)
+	movl $0,-4(%ebp)
+	leal -4(%ebp),%edi
+	movl %edi,-100(%ebp)
+	movl $14,-88(%ebp)
+	addl $4,%esp
+	.align 4
+.L124:
+	cmpl $14,-88(%ebp)
+	jne .L111
+	movl $13,%eax
+	movl $4,-92(%ebp)
+	jmp .L112
+	.align 4
+.L111:
+	movl -88(%ebp),%eax
+	movl $3,-92(%ebp)
+	.align 4
+.L112:
+	movl -92(%ebp),%esi
+	movl 12(%ebp),%edi
+	leal (%edi,%esi,4),%esi
+	movl %esi,-72(%ebp)
+	movl 8(%ebp),%edi
+	leal (%edi,%eax,4),%edi
+	movl %edi,-68(%ebp)
+	movl %eax,-84(%ebp)
+	movl -92(%ebp),%esi
+	cmpl %esi,%eax
+	jl .L114
+	.align 4
+.L123:
+	movl -68(%ebp),%edi
+	addl $-4,-68(%ebp)
+	movl -72(%ebp),%esi
+	addl $4,-72(%ebp)
+	movl (%edi),%eax
+	orl %eax,%eax
+	je .L115
+	movl (%esi),%edx
+	orl %edx,%edx
+	je .L115
+
+	mull %edx
+	movl -100(%ebp),%edi
+	xorl %ecx,%ecx
+	addl (%edi),%eax
+	adcl $0,%edx
+	adcl $0,%ecx
+	addl -4(%edi),%edx
+	adcl $0,%ecx
+	movl %eax,(%edi)
+	movl %edx,-4(%edi)
+	addl %ecx,-8(%edi)
+.L115:
+	decl -84(%ebp)
+	movl -92(%ebp),%edi
+	cmpl %edi,-84(%ebp)
+	jge .L123
+.L114:
+	addl $-4,-100(%ebp)
+	decl -88(%ebp)
+	cmpl $2,-88(%ebp)
+	jg .L124
+	leal -64(%ebp),%ebx
+	pushl %ebx
+	call mdnorm
+	movl 12(%ebp),%esi
+	pushl %esi
+	pushl %ebx
+	call qmov
+	leal -112(%ebp),%esp
+	popl %ebx
+	popl %esi
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe11:
+	.size	 mulm,.Lfe11-mulm
+	.align 16
+.globl mulin
+	.type	 mulin,@function
+mulin:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $92,%esp
+	pushl %edi
+	pushl %esi
+	pushl %ebx
+/* qclear( act ); */
+	leal -60(%ebp),%eax
+	pushl %eax
+	call qclear
+/* act[0] = ac3[0]; */
+	movl 12(%ebp),%ebx
+	movl (%ebx),%ecx
+	movl %ecx,-60(%ebp)
+/* act[1] = ac3[1]; */
+	movl 4(%ebx),%ecx
+	movl %ecx,-56(%ebp)
+/* act[NQ] = 0; */
+	movl $0,-4(%ebp)
+/* r = &act[NQ]; */
+	leal -4(%ebp),%esi
+/* y = b[3]; */
+	movl 8(%ebp),%ecx
+	movl 12(%ecx),%ecx
+	movl %ecx,-68(%ebp)
+/* p = &ac3[NQ-1]; */
+	addl $52,%ebx
+	movl %ebx,-64(%ebp)
+/* for( i=NQ-1; i>=3; i-- ) */
+	movl $13,-80(%ebp)
+	addl $4,%esp
+	.align 4
+.L135:
+/* if( *p == 0 ) {--p; --r; continue; } */
+	movl -64(%ebp),%ebx
+	addl $-4,-64(%ebp)
+	movl (%ebx),%eax
+	orl %eax,%eax
+	je .L128
+/* lp = (unsigned long long)(*p--) * y; */
+	mull -68(%ebp)
+
+	xorl %ecx,%ecx
+	addl (%esi),%eax
+	adcl $0,%edx
+	adcl $0,%ecx
+	addl -4(%esi),%edx
+	adcl $0,%ecx
+	movl %eax,(%esi)
+	movl %edx,-4(%esi)
+	addl %ecx,-8(%esi)
+	.align 4
+.L128:
+	addl $-4,%esi
+	decl -80(%ebp)
+	cmpl $2,-80(%ebp)
+	jg .L135
+/* mdnorm( act ); */
+	leal -60(%ebp),%ebx
+	pushl %ebx
+	call mdnorm
+/* qmov( act, ac3 ); */
+	movl 12(%ebp),%ecx
+	pushl %ecx
+	pushl %ebx
+	call qmov
+	leal -104(%ebp),%esp
+	popl %ebx
+	popl %esi
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe12:
+	.size	 mulin,.Lfe12-mulin
+.data
+	.align 4
+	.type	 rndset,@object
+	.size	 rndset,4
+rndset:
+	.long 0
+.text
+	.align 16
+.globl mdnorm
+	.type	 mdnorm,@function
+mdnorm:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %edi
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%edi
+	cmpl $0,rndset
+	jne .L137
+	pushl $rndbit
+	call qclear
+	movl $1,rndbit+52
+	movl $0,rndbit+56
+	movl $1,rndset
+	addl $4,%esp
+	.align 4
+.L137:
+	leal 4(%edi),%ebx
+	xorl %esi,%esi
+	.align 4
+.L143:
+	cmpl $0,8(%edi)
+	je .L139
+	pushl %edi
+	call shdn1
+	incl (%ebx)
+/*	addl $4,%esp */
+/*	cmpl $0,(%ebx) */
+/*	jge .L140 */
+/*	movl $32767,(%ebx) */
+	.align 4
+.L140:
+	incl %esi
+	cmpl $2,%esi
+	jle .L143
+	.align 4
+.L139:
+	xorl %esi,%esi
+	.align 4
+.L149:
+	cmpl $0,12(%edi)
+	jl .L145
+/* Underflow check  */
+/*	pushl %edi */
+/*	call shup1 */
+/*	addl $4,%esp */
+	cmpl $0,(%ebx)
+	je .L146
+	decl (%ebx)
+	pushl %edi
+	call shup1
+	addl $4,%esp
+	.align 4
+.L146:
+	incl %esi
+	cmpl $2,%esi
+	jle .L149
+.L145:
+	cmpl $0,56(%edi)
+	jge .L150
+	pushl %edi
+	pushl $rndbit
+	call addm
+	addl $8,%esp
+	.align 4
+.L150:
+	cmpl $0,8(%edi)
+	je .L153
+	pushl %edi
+	call shdn1
+	incl (%ebx)
+/*	jns .L153 */
+/*	movl $32767,(%ebx) */
+	.align 4
+.L153:
+	movl $0,56(%edi)
+	leal -12(%ebp),%esp
+	popl %ebx
+	popl %esi
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe13:
+	.size	 mdnorm,.Lfe13-mdnorm
+	.align 16
+.globl qmov
+	.type	 qmov,@function
+qmov:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %esi
+	pushl %edi
+	movl $14,%ecx
+	movl 8(%ebp),%esi
+	movl 12(%ebp),%edi
+	rep; movsl
+	popl %edi
+	popl %esi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe14:
+	.size	 qmov,.Lfe14-qmov
+	.align 16
+.globl qmovz
+	.type	 qmovz,@function
+qmovz:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %esi
+	pushl %edi
+	movl $14,%ecx
+	movl 8(%ebp),%esi
+	movl 12(%ebp),%edi
+	rep;	movsl
+	movl $0,(%edi)
+	popl %edi
+	popl %esi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe15:
+	.size	 qmovz,.Lfe15-qmovz
+	.align 16
+.globl qclear
+	.type	 qclear,@function
+qclear:
+	pushl %ebp
+	movl %esp,%ebp
+	pushl %edi
+	movl $14,%ecx
+	movl $0,%eax
+	movl 8(%ebp),%edi
+	rep;	stosl
+	popl %edi
+	movl %ebp,%esp
+	popl %ebp
+	ret
+.Lfe16:
+	.size	 qclear,.Lfe16-qclear
+	.comm	rndbit,60,4
+	.ident	"GCC: (GNU) 2.6.4 snapshot 950305"

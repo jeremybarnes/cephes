@@ -1,0 +1,12 @@
+ieetst.obj,-
+elog.obj,-
+esqrt.obj,-
+econst.obj,-
+drand.obj,-
+eexp.obj,-
+etanh.obj,-
+etodec.obj,-
+epow.obj,-
+ieee.obj,-
+mtherr.obj,-
+sys$library:vaxcrtl/lib

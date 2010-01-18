@@ -1,0 +1,132 @@
+
+                  ieetst, version 0.2
+
+   This software tests the numerical accuracy of floating point
+binary <-> decimal string conversion, as done by your C language
+library functions printf() and scanf(), for compliance with the
+IEEE arithmetic standards ANSI/IEEE Std 754-1985 and ANSI/IEEE
+Std 854-1987.  The test covers 32-bit float, 64-bit double, and
+80-bit long double precision conversions to and from decimal
+ASCII strings.
+
+   The test program checks for proper implementation of the
+following specifications of the standards:
+
+   (1) correctly rounded conversions of numbers of the form M *
+   10^N, where M and N are integers such that, in double precision,
+   for example, |M| < 10^17, |N| <= 27.
+
+   (2) binary -> decimal -> binary conversions to be an identity
+   if a sufficiently large number of decimal digits is requested.
+
+   (3) correctly rounded decimal outputs of less than the maximum
+   number of digits
+
+   (4) The maximum observed conversion error of numbers outside the
+   domain covered by (1) is reported by the test program; it is
+   not supposed to exceed 0.97 ulp.
+
+There are 10 separate tests.  Tests 1 through 6 use values near
+2^n and 10^n.  Test 7 addresses item (1) above.  Test 8 checks
+the rounding of exact half-integer numbers. Test 9 is for item
+(4) above.  Test 10 checks denormal numbers.  Tests 8 through 10
+address item (3) using printf formats that produce outputs of 1,
+2, 3, ... digits after the decimal point.  All tests check, when
+appropriate, that the binary output of scanf is the same as the
+binary input to printf, item (2).
+
+Example error messages:
+
+   0000 0000 0000 1000 8000 3f80 ->printf-> 5.87748296e-39 ->scanf->
+   0000 0000 0000 0000 8000 3f6e  is not an identity.
+
+   scanf(-9.9999900000000003e-01) -> 0000 4800 085f ef39 ffff bffe 
+   should be 0000 5000 085f ef39 ffff bffe .
+
+   printf("%.14e",  6.13592315154256467968352E-3) -> 6.13592315154257e-03
+   should be       6.13592315154256E-3 .
+
+Binary values are displayed as four-digit hex groups in the
+little-endian format of the internal reference arithmetic. The
+least significant 16-bit word is first, the exponent is last.
+
+   The design of the test program requires knowing the binary
+data structure of the floating point format under test.  For
+configuration, check the .h files carefully. All the programs
+need to be told via mconf.h if the numeric format is
+little-endian (IBMPC) or big-endian (MIEEE).  If your system
+supports an 80-bit long double precision data type, define
+LDOUBLE 1 in ieetst.c; otherwise define LDOUBLE 0.  A provision
+for DEC PDP-11/VAX numbers is implemented (double precision
+only).  Conversions for other data structures can be added by
+analogy to the ifdefs for DEC.
+
+   Most of the tests rely on comparison with the results of a
+portable reference arithmetic, contained in the file ieee.c. 
+This is configured for an 80-bit significand, to have enough
+precision to satisfy the conversion requirements of IEEE 854 for
+the extended double format of IEEE 754.  The reference arithmetic
+includes binary <--> ASCII conversion routines and single <-->
+double <--> extended double conversions.  A strictly rounded
+square root function is given in esqrt.c.  Additional functions
+are provided by elog.c, eexp.c, etanh.c, epow.c, all of which
+call on ieee.c for their arithmetic.  Some of the ANSI C
+functions are supplied in ieee.c; for example, efloor(),
+efrexp(), eldexp(). The functions and the reference arithmetic
+are described further in the book _Methods and Programs for
+Mathematical Functions_ (Prentice-Hall or Simon & Schuster
+International, 1989), by S. L. Moshier.
+
+   As an aid in diagnosis, a calculator program, ecalc.c, is
+supplied.  It uses ieee.c for its arithmetic. Documentation for
+the calculator's user interface is in the file calc100.doc
+(calc100 is a fuller featured 100-digit version of ecalc).  The
+calculator needs to be told by qcalc.h if addresses are 32 bits
+long (define LARGEMEM 1) or 16 bits long (define LARGEMEM 0).
+
+   Because the source code of ieee.c is included here, a version
+of W. Kahan's PARANOIA is also provided; this has been heavily
+modified by substituting subroutine calls to ieee.c in place of
+all arithmetic operators.  It is important that you use PARANOIA
+to check the arithmetic after any modifications you may make to
+ieee.c.
+
+   Several systems have been tested with the initial version of
+ieetst.  Sun 4 (SPARC) passes; DEC VMS C has only a small flaw;
+Microsoft flunks; ATT SysVR2 (Motorola) flunks even worse.
+
+
+   Files:
+
+calc100.doc     calculator documentaton
+descrip.mms     part of VAX VMS makefile
+drand.c         random number generator
+ecalc.c         calculator
+ecalc.opt       part of VAX VMS makefile
+econst.c        constants for reference arithmetic
+eexp.c          reference exponential function
+ehead.h         declarations for reference arithmetic routines
+elog.c          reference logarithm
+eparanoi.c      floating point arithmetic tester
+eparanoi.opt    part of VAX VMS makefile
+epow.c          reference exponentiation
+esqrt.c         reference square root
+etanh.c         reference hyperbolic tangent
+etodec.c        conversions to and from DEC double precision format
+ieee.c          the reference arithmetic
+ieetst.c        printf/scanf tester
+ieetst.doc      this file
+ieetst.mak      Microsoft make file
+ieetst.opt      part of VAX VMS makefile
+makefile        Unix make file
+mconf.h         definitions for arithmetic format
+mtherr.c        common error reporter
+qcalc.h         definitions for calculator
+
+
+This software may be copied freely.
+
+-- Steve Moshier
+
+v0.1   July, 1992
+v0.2   January, 1993

@@ -1,0 +1,854 @@
+* Floating point arithmetic inner loops
+*
+* 68000 version of qfltb.c
+* This version, qf68k.a, uses register and addressing conventions
+* of the OS-9 operating system.
+* Copyright 1987-1989 by Stephen L. Moshier
+
+* Set NQ = size of number in words.
+* Also adjust rndbit[] array to have a 1 bit in the rounding
+* position (see at end of the file). 
+NQ	EQU	24
+
+	PSECT
+shdn1:
+	movem.l	d7/a5,-(a7)
+	movea.l	d0,a5
+	addq.l	#4,a5
+*	moveq	#NQ-2,d7
+	move.w	#0,ccr
+sdnl
+	REPT	NQ-1
+	roxr	(a5)+
+	ENDR
+*	dbra	d7,sdnl
+	movem.l	(a7)+,a5/d7
+	rts
+
+shup1:
+	movem.l	d7/a5,-(a7)
+	movea.l	d0,a5
+	adda.w	#NQ+NQ+2,a5
+*	moveq	#NQ-2,d7	* do NQ-1 words
+	move	#0,ccr
+sup1l
+	REPT	NQ-1
+	roxl	-(a5)
+	ENDR
+*	dbra	d7,sup1l
+	movem.l	(a7)+,a5/d7
+	rts
+
+shdn8:
+	movem.l	d7/a5/a4,-(a7)
+	movea.l	d0,a5
+	adda.w	#NQ+NQ+1,a5
+	lea	1(a5),a4
+*	movea.l	a5,a4
+*	addq.l	#1,a4
+*	moveq	#NQ+NQ-4,d7		* (NQ-1) * 2 - 1 - 1
+sd8l
+	REPT	NQ+NQ-3
+	move.b	-(a5),-(a4)
+	ENDR
+*	dbra	d7,sd8l
+	move.b	#0,-(a4)
+	movem.l	(a7)+,a4/a5/d7
+	rts
+
+
+shup8:
+	movem.l	d7/a5/a4,-(a7)
+	movea.l d0,a5
+	addq	#4,a5
+	lea	1(a5),a4
+*	movea.l	a5,a4
+*	addq.l	#1,a4
+*	moveq	#NQ+NQ-4,d7		; (NQ-1) * 2 - 1 - 1
+su8l
+	REPT	NQ+NQ-3
+	move.b	(a4)+,(a5)+
+	ENDR
+*	dbra	d7,su8l
+	move.b	#0,(a5)
+	movem.l	(a7)+,a4/a5/d7
+	rts
+
+
+shdn16:
+	movem.l	d7/a5/a4,-(a7)
+	movea.l d0,a5
+	adda.w	#NQ+NQ,a5
+	lea	2(a5),a4
+*	movea.l	a5,a4
+*	addq.l	#2,a4
+*	moveq	#NQ-3,d7	; do NQ-2 words
+sd6l
+	REPT	NQ-2
+	move.w	-(a5),-(a4)
+	ENDR
+*	dbra	d7,sd6l
+	move.w	#0,-(a4)
+	movem.l	(a7)+,a4/a5/d7
+	rts
+
+
+shup16:
+	movem.l	d7/a5/a4,-(a7)
+	movea.l d0,a5
+	addq	#4,a5
+	lea	2(a5),a4
+*	movea.l	a5,a4
+*	addq.l	#2,a4
+*	moveq	#NQ-3,d7	; do NQ-2 words
+su6l
+	REPT	NQ-2
+	move.w	(a4)+,(a5)+
+	ENDR
+*	dbra	d7,su6l
+	move.w	#0,(a5)
+	movem.l	(a7)+,a4/a5/d7
+	rts
+
+
+addm:
+	movem.l	d7/a5/a4,-(a7)
+*	move.l	8(a6),a4
+	movea.l d0,a4
+	adda.w	#NQ+NQ+2,a4 ; 2 * (2 + (NQ-1))
+*	move.l	12(a6),a5
+	movea.l d1,a5
+	adda.w	#NQ+NQ+2,a5
+*	moveq	#NQ-2,d7
+	move	#0,ccr
+add1l
+	REPT	NQ-1
+	addx.w	-(a4),-(a5)
+	ENDR
+*	dbra	d7,add1l
+	movem.l	(a7)+,a4/a5/d7
+	rts
+
+
+subm:
+	movem.l	d7/a5/a4,-(a7)
+*	move.l	8(a6),a4
+	movea.l	d0,a4
+	adda.w	#NQ+NQ+2,a4 ; 2 * (2 + (NQ-1))
+*	move.l	12(a6),a5
+	movea.l d1,a5
+	adda.w	#NQ+NQ+2,a5
+*	moveq	#NQ-2,d7
+	move	#0,ccr
+sub1l
+	REPT	NQ-1
+	subx.w	-(a4),-(a5)
+	ENDR
+*	dbra	d7,sub1l
+	movem.l	(a7)+,a4/a5/d7
+	rts
+
+
+* variable precision multiply of significands.
+* c must not be in the same location as either a or b.
+*
+* static int mulv( a, b, c, prec )
+* unsigned short a[], b[], c[];
+* int prec;
+
+
+mulv:
+	link	a5,#-4
+	movem.l	d7/d6/d5/d3/d2/d1/a4/a3/a2/a1/a0,-(a7)
+*	move.l	8(a6),a4
+	movea.l	d0,a4
+*	move.l	12(a6),a2
+	movea.l	d1,a2
+*	move.l	16(a6),a3	; c
+	move.l	8(a5),a3
+*	move.l	20(a6),d6	; precision, in words
+	move.l	12(a5),d6
+* clear the output array of prec+2 words
+	move.l	d6,d7
+	addq.l	#1,d7
+	move.l	a3,a0
+	addq	#4,a0
+	clr.l	d1
+
+mv2l
+	move.w	d1,(a0)+
+	dbra	d7,mv2l
+
+
+* for( k=prec+2; k>=3; k-- )
+	move.l	d6,d7	; k = prec+2
+	asl.l	#1,d7
+	adda.l	d7,a3
+	addq.l	#6,a3	; r = &c[prec+3];
+	addq.l	#4,d7
+* {
+mv0l
+	lea	6(a2),a1	; q = &b[3];
+	lea	2(a4),a0
+	adda.l	d7,a0	; p = &a[k];
+*	addq.l	#2,a0
+* for( i=k; i>=3; i-- )
+*	{
+	move.w	d7,d5
+	asr.w	#1,d5
+	subq.w	#3,d5
+*	if( (*p == 0) || (*q == 0) )
+*		{
+*		--p;
+*		++q;
+*		continue;
+*		}
+	subq.l	#2,a3
+	move.l	(a3),d3
+	move.w	-(a3),d2
+
+mv1l	move.w	-(a0),d0	; *p--
+	mulu	(a1)+,d0 ; *q++
+	add.l	d0,d3	; accumulate 32 bits in *(r-2), *r
+	addx.w	d1,d2
+	dbra	d5,mv1l
+
+	move.w	d2,(a3)+
+	move.l	d3,(a3)
+	subq.l	#2,d7
+	cmpi.w	#4,d7
+	bne.s	mv0l
+
+
+	movem.l	(a7)+,a0/a1/a2/a3/a4/d7/d6/d5/d3/d2/d1
+	unlk a5
+	rts
+
+
+
+* variable precision square.
+* b must be in a different location from a.
+*
+* static squarev( a, b, prec )
+* unsigned short a[], b[];
+* int prec;
+* {
+
+
+squarev:
+	movem.l	d7/d6/d5/d2/d1/a5/a4/a3/a2/a1/a0,-(a7) ; 11 regs saved
+*	move.l	8(a6),a4	; a
+	movea.l d0,a4
+*	move.l	12(a6),a3	; b
+	movea.l	d1,a3
+*	move.l	16(a6),d6	; precision, in words
+	move.l	48(a7),d6
+	move.l	a3,-(a7)	; save b for later
+* clear the output array of prec+2 words
+	move.l	d6,d7
+	addq.l	#1,d7
+	lea	4(a3),a0
+	moveq.l	#0,d1
+
+sq5l
+	move.w	d1,(a0)+
+	dbra	d7,sq5l
+
+	moveq.l	#0,d5
+* r = &b[prec+3];
+* for( k=prec+2; k>=3; k-- )
+* {
+	move.l	d6,d7	; k = prec+2
+	asl.l	#1,d7
+	adda.l	d7,a3
+	addq.l	#6,a3	; r = &b[prec+3];
+	addq.l	#4,d7
+
+sq0l
+	lea	6(a4),a1 ; q = &a[3];
+	movea.l	a4,a0
+	adda.l	d7,a0	; p = &a[k];
+
+	subq	#2,a3
+*while( p >= q )	
+*	{
+sq1l
+	cmpa.l	a0,a1
+	bhi.s	sq3l
+*	if( (*p == 0) || (*q == 0) )
+*		{
+*		--p;
+*		++q;
+*		continue;
+*		}
+	move.w	(a0),d0
+	mulu	(a1),d0
+	cmpa.l	a0,a1
+	beq.s	sq2l
+
+	clr.w	d1
+	lsl.l	#1,d0		; 2ab term of square
+	roxl.w	#1,d1
+	add.w	d1,-2(a3)
+
+sq2l	subq.l	#2,a0
+	addq.l	#2,a1
+	add.l	d0,(a3)	; accumulate in *r
+	bcc.s	sq1l
+	move.w	-(a3),d2
+	addx.w	d5,d2
+	move.w	d2,(a3)+
+	bra.s	sq1l
+
+*	}
+* --r;
+* }
+sq3l
+	subq	#2,d7
+	cmpi.w	#4,d7
+	bne.s	sq0l
+* shup1(b);
+*	move.l	12(a6),-(a7)	; this argument already pushed
+	move.l	(a7)+,d0
+	bsr	shup1
+*	addq	#4,a7
+	movem.l	(a7)+,a0/a1/a2/a3/a4/a5/d7/d6/d5/d2/d1
+	rts
+
+
+* mulm( b, ac3 )
+* unsigned short b[], ac3[];
+* {
+
+mulm:
+	movem.l	d7/d6/d5/d4/d3/d2/d1/a5/a4/a3/a2/a1/a0,-(a7)
+*	move.l	8(a6),a4	; b
+	movea.l	d0,a4
+*	move.l	12(a6),a2	; ac3
+	movea.l	d1,a2
+	suba.l	#NQ+NQ+4,a7
+	move.l	a7,a5		; act
+* qclear( act );
+	move.l	#NQ+1,d0
+	move.l	a5,a1
+	moveq.l	#0,d1
+mm0l
+	move.w	d1,(a1)+
+	dbra	d0,mm0l
+
+*act[0] = ac3[0];
+*act[1] = ac3[1];
+	move.l	a2,a0	; ac3
+	move.l	a5,a1	; act
+	move.w	(a0)+,(a1)+
+	move.w	(a0)+,(a1)+
+*r = &act[NQ+1];
+	lea	NQ+NQ+2(a5),a3
+*	move.l	a5,a3
+*	adda.l	#NQ+NQ+2,a3
+*for( k=NQ; k>=3; k-- )
+*{
+	move.l	#NQ,d7	; k
+mm1l	cmp.b	#2,d7
+	beq.s	mm7l
+*if( k == NQ )
+*	{
+	cmp.b	#NQ,d7
+	bne.s	mm3al
+*	m = NQ-1;
+*	o = 4;
+	move.l	#NQ-1,d6 ; m
+	moveq.l	#4,d5	; o
+	bra.s	mm3bl
+*	}
+*else
+*	{
+*	m = k;
+*	o = 3;
+mm3al	move.l	d7,d6	; m
+	moveq.l	#3,d5
+*	}
+* p = &b[m];
+mm3bl	asl.l	#1,d6	; m
+	lea	2(a4),a0
+	adda.l	d6,a0	; p
+* q = &ac3[o];
+	asl.l	#1,d5	; o
+	move.l	a2,a1
+	adda.l	d5,a1	; q
+
+	subq.l	#2,a3
+	move.l	(a3),d3
+	move.w	-(a3),d4
+	sub.w	d5,d6
+	asr.w	#1,d6
+* for( i=m; i>=o; i-- )
+*	{
+mm2l
+*	if( (*p == 0) || (*q == 0) )
+*		{
+*		--p;
+*		++q;
+*		continue;
+*		}
+	move.w	-(a0),d0	; p
+*	beq.s	mm4l
+*	move.w	(a1),d2
+*	beq.s	mm4l
+*	mulu	d2,d0
+	mulu	(a1)+,d0
+	add.l	d0,d3
+	addx.w	d1,d4
+mm4l
+*	addq.l	#2,a1
+	dbra	d6,mm2l
+*	}
+*--r;
+mm6l
+	move.w	d4,(a3)+
+	move.l	d3,(a3)
+	subq.l	#1,d7
+	bra.s	mm1l
+*}
+*mdnorm( act );
+mm7l
+*	move.l	a5,-(a7)
+	move.l	a5,d0
+	bsr	mdnorm
+*	addq.l	#4,a7
+*qmov( act, ac3 );
+	move.l	a5,a0	; act
+	move.l	a2,a1	; ac3
+	move.l	#NQ-1,d0
+mm8l	move.w	(a0)+,(a1)+
+	dbra	d0,mm8l
+*}
+	adda.l	#NQ+NQ+4,a7
+	movem.l	(a7)+,a0/a1/a2/a3/a4/a5/d7/d6/d5/d4/d3/d2/d1
+	rts
+
+
+*mulin( b, ac3 )
+*unsigned short b[], ac3[];
+*{
+
+mulin:
+	movem.l	d7/d6/d5/d2/d1/a5/a4/a3/a2/a1/a0,-(a7)
+*	move.l	8(a6),a4	; b
+	movea.l	d0,a4
+*	move.l	12(a6),a2	; ac3
+	movea.l	d1,a2
+	suba.l	#NQ+NQ+4,a7
+	move.l	a7,a5		; act
+* qclear( act );
+	move.l	#NQ+1,d0
+	move.l	a5,a1
+	moveq.l	#0,d1
+mn0l
+	move.w	d1,(a1)+
+	dbra	d0,mn0l
+
+*act[0] = ac3[0];
+*act[1] = ac3[1];
+	move.l	a2,a0	; ac3
+	move.l	a5,a1	; act
+	move.w	(a0)+,(a1)+
+	move.w	(a0)+,(a1)+
+*r = &act[NQ];
+	move.l	a5,a3
+	adda.l	#NQ+NQ,a3
+*y = b[3];
+*	clr.l	d6
+	move.w	6(a4),d6
+*p = &ac3[NQ-1];
+	move.l	a2,a1
+	adda.l	#NQ+NQ,a1
+*for( i=NQ-1; i>=3; i-- )
+*	{
+	move.l	#NQ-4,d7
+	moveq.l	#1,d1
+mn1l
+*	if( *p == 0 )
+*		{
+*		--p;
+*		--r;
+*		continue;
+*		}
+	subq.l	#2,a3
+	move.w	d6,d0
+	move.w	-(a1),d2
+	beq.s	mn7n
+	mulu	d2,d0
+	add.l	d0,(a3)
+	bcc.s	mn7n
+	move.w	d1,-2(a3)
+mn7n
+*	}
+	dbra	d7,mn1l
+*mdnorm( act );
+*mn7l
+*	move.l	a5,-(a7)
+	move.l	a5,d0
+	bsr	mdnorm
+*	addq	#4,sp
+*qmov( act, ac3 );
+	move.l	a5,a0	; act
+	move.l	a2,a1	; ac3
+	move.l	#NQ-1,d0
+mn8l	move.w	(a0)+,(a1)+
+	dbra	d0,mn8l
+*}
+	adda.l	#NQ+NQ+4,a7
+	movem.l	(a7)+,a0/a1/a2/a3/a4/a5/d7/d6/d5/d2/d1
+	rts
+
+*divsh( a, prod )
+
+divsh:
+	movem.l	d7/d6/d5/d2/d1/a5/a4/a3/a2/a1/a0,-(a7)
+*	move.l	8(a6),a4	; a
+	movea.l	d0,a4
+*	move.l	12(a6),a5	; prod
+	movea.l	d1,a5
+
+*prod[NQ] = 0;
+	clr.w	NQ+NQ(a5)
+*prod[NQ+1] = 0;
+	clr.w	NQ+NQ+2(a5)
+*shdn1( prod );
+*	move.l	a5,-(a7)
+	move.l	a5,d0
+	bsr	shdn1
+*	addq	#4,a7
+*shdn1( prod );
+*	move.l	a5,-(a7)
+	move.l	a5,d0
+	bsr	shdn1
+*	addq	#4,a7
+*d = a[3];
+	clr.l	d6
+	move.w	6(a4),d6
+*u = ((unsigned long )prod[3] << 16) | prod[4];
+	move.l	a5,a0
+	adda.l	#6,a0	; &prod[3]
+	move.l	a0,a1
+	move.l	#-65536,d5	; 0xffff0000
+	move.w	(a0)+,d0
+	swap	d0
+	and.l	d5,d0
+	or.w	(a0)+,d0
+
+*for( i=3; i<NQ; i++ )
+*	{
+	move.l	#3,d7
+ds1l	cmp.b	#NQ,d7
+	beq.s	ds2l
+*	qu = u / d;
+	divu.w	d6,d0
+*	prod[i] = qu;
+	move.w	d0,(a1)+
+*	u = ((u - (unsigned long )d * qu) << 16) | prod[i+2];
+	and.l	d5,d0
+	or.w	(a0)+,d0
+*	}
+	addq.l	#1,d7
+	bra.s	ds1l
+ds2l
+* prod[NQ] = u / d;
+	divu.w	d6,d0
+	move.w	d0,(a1)+
+	movem.l	(a7)+,a0/a1/a2/a3/a4/a5/d7/d6/d5/d2/d1
+	rts
+
+
+*	move a to b
+*
+*	short a[NQ], b[NQ];
+*	qmov( a, b );
+
+
+qmov:
+	movem.l	a1/a0,-(a7)
+*	move.l	8(a6),a0
+	movea.l	d0,a0
+*	move.l	12(a6),a1
+	movea.l	d1,a1
+	move.l	#NQ-1,d0	; 2*(11+1) = NQ words
+qm1l	move.w	(a0)+,(a1)+
+	dbra	d0,qm1l
+	movem.l	(a7)+,a0/a1
+	rts
+
+
+
+*qmovz( a, b )
+* same as qmov but clears 1 low guard word at 25th array position
+
+qmovz:
+	movem.l	a1/a0,-(a7)
+*	move.l	8(a6),a0
+	movea.l	d0,a0
+*	move.l	12(a6),a1
+	movea.l	d1,a1
+	move.l	#NQ-1,d0	; 2*(11+1) = NQ words
+qmz1l	move.w	(a0)+,(a1)+
+	dbra	d0,qmz1l
+	clr.w	(a1)+
+	movem.l	(a7)+,a0/a1
+	rts
+
+* set value to zero
+qclear:
+	movem.l	d1/a0,-(a7)
+*	move.l	8(a6),a0
+	movea.l	d0,a0
+	moveq.l #0,d1
+	move.l	#NQ-1,d0	; 2*(11+1) = NQ words
+qmv1l	move.w	d1,(a0)+
+	dbra	d0,qmv1l
+	movem.l	(a7)+,a0/d1
+	rts
+
+
+
+sqr		equ	188-NQ-NQ-4	; -52
+prod	equ	-4*NQ-8+188		; -104
+quot	equ	-6*NQ-12+188	; -156
+* divm( a, b )
+* unsigned short a[], b[];
+
+divm:
+*	link       a6,#-188
+	movem.l    d7/d6/d5/d3/d2/a5/a4/a3/a2/a0,-(a7)
+	sub.l	#188,a7
+*	move.l     8(a6),a3
+	movea.l	d0,a3
+*	move.l     12(a6),a5
+	movea.l	d1,a5
+	lea        prod(a7),a4
+	lea        8(a3),a2
+         moveq      #NQ-4,d5
+dvm1al         move.l     a2,a0
+         addq.l     #2,a2
+         moveq      #0,d2
+         move.w     (a0),d2
+         beq.s      dvm26l
+         bra.s      dvm48l
+dvm26l         subq.l     #1,d5
+         tst.l      d5
+         bne.s      dvm1al
+*	move.l     a4,-(a7)	; prod
+*	move.l     a5,-(a7)	; b
+	move.l	a5,d0	; b
+	move.l	a4,d1	; prod
+         bsr.s	qmov
+*	addq.w     #8,a7
+*	move.l     a4,-(a7)	; prod
+*	move.l     a3,-(a7)	; a
+	move.l	a3,d0	; a
+	move.l	a4,d1	; prod
+         bsr	divsh
+*	addq.w     #8,a7
+         bra	dvm100l
+dvm48l
+*	pea	quot(a7)
+	lea	quot(a7),a0
+	move.l	a0,d0
+        bsr	qclear
+*	addq.w     #4,a7
+         clr.w      quot+NQ+NQ(a7)
+*	move.l     a4,-(a7)
+	move.l	a4,d0
+         bsr        qclear
+*	addq.w     #4,a7
+*	pea        sqr(a7)
+	lea	sqr(a7),a0
+	move.l	a0,d0
+         bsr        qclear
+*	addq.w     #4,a7
+         moveq      #0,d2
+         move.w     6(a3),d2	; a[3]
+         move.l     #1073741824,d3
+         divu	d2,d3
+         move.w     d3,quot+6(a7)	; quot[3]
+         moveq      #2,d7	; prec
+         moveq      #1,d6	; k
+dvm86l         moveq      #NQ-2,d2
+         cmp.l      d7,d2
+         ble.s      dvme2l
+         move.l     d6,d2
+         lsl.l      #1,d2
+         move.l     d2,d6
+         moveq      #NQ-2,d2
+         cmp.l      d6,d2
+         bge.s      dvm9cl
+         moveq      #NQ-2,d7	; prec = NQ - 2
+         bra.s      dvm9el
+dvm9cl         move.l     d6,d7
+dvm9el
+	move.l     d7,-(a7)
+*	pea        sqr(a7)
+*	pea        quot(a7)
+	lea	quot+4(a7),a0
+	move.l	a0,d0
+	lea	sqr+4(a7),a0
+	move.l	a0,d1
+         bsr	squarev
+*	adda.w     #12,a7
+	addq.l	#4,a7
+         move.l     d7,-(a7)
+         move.l     a4,-(a7)
+*	pea        sqr(a7)
+	lea.l	sqr+8(a7),a0
+	move.l	a0,d1
+*	move.l     a3,-(a7)
+	move.l	a3,d0
+         bsr	mulv
+*	adda.w     #16,a7
+	adda.w	#8,a7
+*	pea        quot(a7)
+*	move.l     a4,-(a7)
+	move.l	a4,d0
+	lea	quot(a7),a0
+	move.l	a0,d1
+         bsr	subm
+*	addq.w     #8,a7
+*	pea        quot(a7)
+	lea quot(a7),a0
+	move.l	a0,d0
+         bsr	shup1
+*	addq.w     #4,a7
+         bra.s      dvm86l
+dvme2l
+	move.l	#NQ-2,-(a7)
+	move.l     a4,-(a7)
+*	move.l     a5,-(a7)
+*	pea        quot(a7)
+	lea	quot+8(a7),a0
+	move.l	a0,d0
+	move.l	a5,d1
+         bsr	mulv
+*	adda.w     #16,a7
+	adda.w	#8,a7
+         move.w     (a5),(a4)
+         move.w     2(a5),2(a4)
+dvm100l
+*	move.l     a4,-(a7)
+	move.l	a4,d0
+         bsr.s	mdnorm
+*	move.l     a5,(a7)
+*	move.l     a4,-(a7)
+	move.l	a4,d0
+	move.l	a5,d1
+         bsr	qmov
+*	addq.w     #8,a7
+	add.l #188,a7
+         movem.l    (a7)+,a0/a2/a3/a4/a5/d2/d3/d5/d6/d7
+         rts        
+
+
+
+mdnorm:
+         movem.l    d7/a5/a4/a3/a2/a0,-(a7)
+*	move.l     8(a6),a4
+	movea.l	d0,a4
+*	lea	rndset,a3
+*	move.w     (a3),d0
+*        ext.l      d0
+*         bne.s      mdn38l
+*         pea        rndbit
+*	move.l	(a7),a2
+*         bsr        qclear
+*         addq.w     #4,a7
+*         moveq      #1,d0
+*         move.w     d0,NQ+NQ-2(a2)
+*         clr.w      NQ+NQ(a2)
+*         move.w     d0,(a3)	;rndset
+*mdn38l
+	lea        2(a4),a5
+         clr.l      d7
+         bra.s      mdn62l
+mdn40l	moveq      #0,d0
+         move.w     4(a4),d0
+         bne.s      mdn4al
+         bra.s      mdn68l
+mdn4al
+*	move.l     a4,-(a7)
+	move.l	a4,d0
+         bsr	shdn1
+*	addq.w     #4,a7
+         addq.w     #1,(a5)
+*         move.w     (a5),d0
+*         ext.l      d0
+*         bge.s      mdn60l
+*         move.w     #32767,(a5)
+mdn60l         addq.l     #1,d7
+mdn62l         moveq      #3,d0
+         cmp.l      d7,d0
+         bgt.s      mdn40l
+mdn68l         clr.l      d7
+         bra.s      mdn92l
+mdn6cl         moveq      #0,d0
+         move.w     6(a4),d0
+         and.l      #32768,d0
+         beq.s      mdn7cl
+         bra.s      mdn98l
+mdn7cl
+*	move.l     a4,-(a7)
+	move.l	a4,d0
+         bsr        shup1
+*	addq.w     #4,a7
+         move.w     (a5),d0
+         ext.l      d0
+         beq.s      mdn90l
+         subq.w     #1,(a5)
+mdn90l         addq.l     #1,d7
+mdn92l         moveq      #3,d0
+         cmp.l      d7,d0
+         bgt.s      mdn6cl
+mdn98l         moveq      #0,d0
+         move.w     NQ+NQ(a4),d0
+         and.l      #32768,d0
+         beq.s      mdnb6l
+*	move.l     a4,-(a7)
+*	pea        rndbit(pc)
+	lea	rndbit(pc),a0
+	move.l	a0,d0
+	move.l	a4,d1
+         bsr        addm
+*	addq.w     #8,a7
+mdnb6l         tst.w      4(a4)
+         beq.s      mdnd2l
+*	move.l     a4,-(a7)
+	move.l	a4,d0
+         bsr        shdn1
+*	addq.w     #4,a7
+         addq.w     #1,(a5)
+*         move.w     (a5),d0
+*         ext.l      d0
+*         bge.s      mdnd2l
+*         move.w     #32767,(a5)
+mdnd2l         clr.w      NQ+NQ(a4)
+         movem.l    (a7)+,a0/a2/a3/a4/a5/d7
+         rts        
+
+
+
+* for 24 word format
+rndbit
+	dc.w 0,0,0,0,0,0,0,0
+	dc.w 0,0,0,0,0,0,0,0
+	dc.w 0,0,0,0,0,0,0,1,0
+
+* for 12 word format
+*rndbit	dc.w 0,0,0,0,0,0,0,0
+*	dc.w 0,0,0,1,0
+
+* for 11 word format
+*rndbit	dc.w 0,0,0,0,0,0,0,0
+*	dc.w 0,0,1,0
+
+*rndset	data.w  0
+
+END
+

@@ -1,0 +1,15 @@
+qlibl
+y
++qacosh +qairy +qasin +qasinh +qatanh +qatn +qbeta &
++qcbrt +qconst +qcos +qcosh +qdawsn +qellie +qeuclid &
++qcgamma +qcerf +qcpolylo +qchyp1f1 &
++qellik +qellpe +qellpj +qellpk +qerf +qerfc +qexp +qexp10 &
++qexp2 +qexpn +qfac +qfloor +qfresf +qgamma +qhy2f1 +qhyp &
++qigam +qin +qincb +qincbi +qine +qpolylog &
++qigami +qjn +qjypn +qjyqn +qk0 +qkn +qkne +qlog +qlog10 &
++qndtr +qndtri +qpow +qprob +qpsi +qremain +qshici +qsici +qsimq &
++qsin +qsindg +qsinh +qspenc +qsqrt +qstudt +qtan +qtanh &
++qyn +qzetac +qcmplx +qflti +mtherr +subml +divnl +mulrl
+qlibl.lst
+qlibl
+

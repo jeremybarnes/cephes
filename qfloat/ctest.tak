@@ -1,0 +1,19 @@
+digits 5
+u = 0;
+dm
+z=x/y; t=z*y; u=u+abs((x-t)/x)
+x = 1 + i; y = 1 - i; em
+x = 4 + i; y = 4 + i; em
+y = 4 - i; em
+x = 1 + 4*i; em
+y = 1 - 4*i; em
+x = 1; y = 1; em
+x = i; y = 1; em
+x = 1; y = i; em
+x = i; y = i; em
+x = 1e-4000 + 1e4000*i; y = conj x; em
+x = -1e-4000 + 1e4000*i; y = conj x; em
+x = 1e-4000 - 1e4000*i; y = conj x; em
+x=1-i;y=acos(x);t=cos(y);abs((x-t)/x)
+x=.5-i;y=log(x);t=exp(y);abs((x-t)/x)
+x=.01+2*i;y=atan(x);t=tan(y);abs((x-t)/x)

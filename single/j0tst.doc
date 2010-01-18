@@ -1,0 +1,105 @@
+From Kbwms@aol.com Tue May 14 15:51:18 1996
+Date: Mon, 13 May 1996 16:45:33 -0400
+From: Kbwms@aol.com
+To: moshier@world.std.com
+Subject: Problems With Float Version of J0
+
+Dear Steve,
+
+     I took your advice and added tests using absolute error to the
+test suite for Bessel functions.  Using 20 supposed zeros for J0 from
+the program that I wrote about previously, I evaluated both the ordinary
+function and the extended function.  These tests show that functions j0()
+and j0l() are performing quite well.
+
+     The float version is another story.  I have appended to this letter
+a printout of the test results on j0f().  These tests show that j0f() is
+having problems at root numbers 4-8, 12-14 and 18-20.
+
+     The date on my copy of j0f.c is 06-26-92.  That is probably the date
+that I downloaded it from a now-unknown ftp site.
+
+K.B.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+SPECIAL VALUES:
+Testing zeros of j0f
+ 1: j0f(+2.4048254489898681641) = +3.8498217946880686213E-008
+    xjn(+2.4048254489898681641) = +5.6434399591553123861E-008
+    The absolute error was 1.793618164E-008 = 2 ^ -25.73
+    Accuracy loss in base 2 significant digits is 0.00
+ 2: j0f(+5.5200781822204589844) = +4.041770917950771036E-009
+    xjn(+5.5200781822204589844) = +2.4476658908592181924E-008
+    The absolute error was 2.043488799E-008 = 2 ^ -25.54
+    Accuracy loss in base 2 significant digits is 0.00
+ 3: j0f(+8.6537275314331054687) = +1.6691650728262175107E-007
+    xjn(+8.6537275314331054687) = +1.0355305744110084508E-007
+    The absolute error was 6.336344984E-008 = 2 ^ -23.91
+    Accuracy loss in base 2 significant digits is 0.09
+ 4: j0f(+11.791533470153808594) = -33.760066986083984375
+    xjn(+11.791533470153808594) = -2.2522115142687429816E-007
+    The absolute error was 33.76006676 = 2 ^ 5.08
+    Accuracy loss in base 2 significant digits is 29.08
+ 5: j0f(+14.930917739868164062) = -54.7330780029296875
+    xjn(+14.930917739868164062) = -6.4815051614267151555E-009
+    The absolute error was 54.733078 = 2 ^ 5.77
+    Accuracy loss in base 2 significant digits is 29.77
+ 6: j0f(+18.071063995361328125) = -80.640838623046875
+    xjn(+18.071063995361328125) = +5.1532317789417495776E-009
+    The absolute error was 80.64083863 = 2 ^ 6.33
+    Accuracy loss in base 2 significant digits is 30.33
+ 7: j0f(+21.211637496948242188) = -1.1907993524573612376E-007
+    xjn(+21.211637496948242188) = -1.5023347966693257607E-007
+    The absolute error was 3.115354442E-008 = 2 ^ -24.94
+    Accuracy loss in base 2 significant digits is 0.00
+ 8: j0f(+24.352472305297851563) = -147.2607269287109375
+    xjn(+24.352472305297851563) = +1.252456994374032222E-007
+    The absolute error was 147.2607271 = 2 ^ 7.20
+    Accuracy loss in base 2 significant digits is 31.20
+ 9: j0f(+27.493478775024414062) = +8.6456402925705333473E-008
+    xjn(+27.493478775024414062) = +5.4331104330891022151E-008
+    The absolute error was 3.212529859E-008 = 2 ^ -24.89
+    Accuracy loss in base 2 significant digits is 0.00
+10: j0f(+30.634607315063476562) = +1.0253265259052568581E-007
+    xjn(+30.634607315063476562) = +1.2205545645928957006E-007
+    The absolute error was 1.952280387E-008 = 2 ^ -25.61
+    Accuracy loss in base 2 significant digits is 0.00
+11: j0f(+33.775821685791015625) = -2.7330395369062898681E-007
+    xjn(+33.775821685791015625) = -2.0213095109233050977E-007
+    The absolute error was 7.11730026E-008 = 2 ^ -23.74
+    Accuracy loss in base 2 significant digits is 0.26
+12: j0f(+36.9170989990234375) = -339.718048095703125
+    xjn(+36.9170989990234375) = +8.4751580680371841227E-008
+    The absolute error was 339.7180482 = 2 ^ 8.41
+    Accuracy loss in base 2 significant digits is 32.41
+13: j0f(+40.0584259033203125) = -400.16937255859375
+    xjn(+40.0584259033203125) = -1.748483989425018841E-008
+    The absolute error was 400.1693725 = 2 ^ 8.64
+    Accuracy loss in base 2 significant digits is 32.64
+14: j0f(+43.19979095458984375) = -465.55548095703125
+    xjn(+43.19979095458984375) = -9.2091405612589154812E-008
+    The absolute error was 465.5554809 = 2 ^ 8.86
+    Accuracy loss in base 2 significant digits is 32.86
+15: j0f(+46.3411865234375) = +6.1005941631719906582E-008
+    xjn(+46.3411865234375) = +2.1663259198486025751E-007
+    The absolute error was 1.556266504E-007 = 2 ^ -22.62
+    Accuracy loss in base 2 significant digits is 1.38
+16: j0f(+49.482608795166015625) = +8.6089109174736222485E-008
+    xjn(+49.482608795166015625) = -1.2502526471826288659E-007
+    The absolute error was 2.111143739E-007 = 2 ^ -22.18
+    Accuracy loss in base 2 significant digits is 1.82
+17: j0f(+52.624050140380859375) = +1.9535471551535010803E-007
+    xjn(+52.624050140380859375) = +1.8706569473118370298E-007
+    The absolute error was 8.289020784E-009 = 2 ^ -26.85
+    Accuracy loss in base 2 significant digits is 0.00
+18: j0f(+55.76551055908203125) = -776.44805908203125
+    xjn(+55.76551055908203125) = -2.0935556016131989757E-008
+    The absolute error was 776.4480591 = 2 ^ 9.60
+    Accuracy loss in base 2 significant digits is 33.60
+19: j0f(+58.906982421875) = -866.50811767578125
+    xjn(+58.906982421875) = +1.5637660924818661331E-007
+    The absolute error was 866.5081178 = 2 ^ 9.76
+    Accuracy loss in base 2 significant digits is 33.76
+20: j0f(+62.04846954345703125) = -961.50311279296875
+    xjn(+62.04846954345703125) = +3.57798884839853627E-008
+    The absolute error was 961.5031128 = 2 ^ 9.91
+    Accuracy loss in base 2 significant digits is 33.91

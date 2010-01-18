@@ -1,0 +1,12 @@
+long
+y
+acoshl asinl asinhl atanl atanhl &
+bdtrl btdtrl cbrtl chdtrl coshl ellpel ellpkl &
+elliel ellikl ellpjl expl exp2l exp10l &
+fdtrl gammal gdtrl igamil igaml incbetl incbil &
+j0l j1l jnl ldrand logl log2l log10l mtherr &
+nbdtrl ndtril ndtrl pdtrl powl powil sinl &
+sinhl sqrtl stdtrl tanl tanhl polevll &
+expx2l unityl ynl floorl isnanl
+long.lst
+long

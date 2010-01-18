@@ -1,0 +1,17 @@
+floatlib
+y
+acoshf airyf asinf asinhf atanf &
+atanhf bdtrf betaf cbrtf chbevlf chdtrf &
+clogf cmplxf constf coshf dawsnf ellief &
+ellikf ellpef ellpkf ellpjf expf exp2f &
+exp10f expnf facf fdtrf floorf fresnlf &
+gammaf gdtrf hypergf hyp2f1f igamf igamif &
+incbetf incbif i0f i1f ivf j0f j1f &
+jnf jvf k0f k1f knf logf log2f &
+log10f nbdtrf ndtrf ndtrif pdtrf polynf &
+powif powf psif rgammaf shichif sicif &
+sindgf sinf sinhf spencef sqrtf stdtrf &
+struvef tandgf tanf tanhf ynf zetaf &
+zetacf polevlf
+floatlib.lst
+floatlib
