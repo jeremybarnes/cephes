@@ -1,3 +1,9 @@
+NOTE: this is a direct import of the Cephes software from http://www.netlib.org/cephes/.
+
+This file is the original README from that page, which also states the license.
+
+-----------------
+
    Some software in this archive may be from the book _Methods and
 Programs for Mathematical Functions_ (Prentice-Hall or Simon & Schuster
 International, 1989) or from the Cephes Mathematical Library, a
