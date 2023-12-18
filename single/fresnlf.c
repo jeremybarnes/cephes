@@ -151,7 +151,6 @@ if( x > 36974.0 )
 /*		Asymptotic power series auxiliary functions
  *		for large argument
  */
-	x2 = x * x;
 	t = PIF * x2;
 	u = 1.0/(t * t);
 	t = 1.0/t;
